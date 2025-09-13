@@ -126,7 +126,7 @@ All colors MUST be HSL. Royal theme with premium manufacturing aesthetic.
   
   /* Royal Card Effects */
   .card-royal {
-    @apply bg-card border border-border shadow-elegant hover:shadow-premium-shadow transition-all duration-500 ease-premium;
+    @apply bg-card border border-border shadow-elegant hover:shadow-premium transition-all duration-500 ease-premium;
   }
   
   .card-royal:hover {
