@@ -2,41 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Royal Industrial Design System for Anchor Digital
+All colors MUST be HSL. Royal theme with premium manufacturing aesthetic.
 */
 
 @layer base {
   :root {
+    /* Core Brand Colors */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
+    --foreground: 220 39% 11%;
+    
+    /* Royal Red Primary */
+    --primary: 352 65% 42%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 352 65% 55%;
+    --primary-dark: 352 65% 30%;
+    
+    /* Deep Navy Secondary */
+    --secondary: 220 39% 11%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-light: 220 39% 25%;
+    
+    /* Premium Gold Accent */
+    --accent: 48 69% 53%;
+    --accent-foreground: 220 39% 11%;
+    --accent-light: 48 69% 65%;
+    --accent-dark: 48 69% 40%;
+    
+    /* Neutral System */
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
+    --card-foreground: 220 39% 11%;
+    
+    /* Interactive Elements */
+    --border: 220 14% 91%;
+    --input: 220 14% 91%;
+    --ring: 352 65% 42%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Popover System */
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    --popover-foreground: 220 39% 11%;
+    
+    /* Royal Design Tokens */
+    --royal-gradient: linear-gradient(135deg, hsl(352 65% 42%), hsl(352 65% 30%));
+    --royal-gradient-subtle: linear-gradient(135deg, hsl(352 65% 42% / 0.1), hsl(352 65% 30% / 0.05));
+    --premium-shadow: 0 10px 40px -10px hsl(352 65% 42% / 0.3);
+    --elegant-shadow: 0 4px 20px -4px hsl(220 39% 11% / 0.15);
+    --gold-shine: 0 0 30px hsl(48 69% 53% / 0.4);
+    
+    /* Animation Easings */
+    --ease-royal: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-premium: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -56,41 +77,26 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 220 39% 6%;
+    --foreground: 0 0% 100%;
+    --card: 220 39% 8%;
+    --card-foreground: 0 0% 100%;
+    --popover: 220 39% 8%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 352 65% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 39% 15%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 220 39% 15%;
+    --muted-foreground: 220 9% 70%;
+    --accent: 48 69% 60%;
+    --accent-foreground: 220 39% 11%;
+    --border: 220 39% 18%;
+    --input: 220 39% 18%;
+    --ring: 352 65% 55%;
+    --royal-gradient: linear-gradient(135deg, hsl(352 65% 55%), hsl(352 65% 40%));
+    --royal-gradient-subtle: linear-gradient(135deg, hsl(352 65% 55% / 0.2), hsl(352 65% 40% / 0.1));
+    --premium-shadow: 0 10px 40px -10px hsl(352 65% 55% / 0.4);
   }
 }
 
@@ -100,6 +106,71 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter antialiased;
+  }
+}
+
+@layer components {
+  /* Royal Button Variants */
+  .btn-royal {
+    @apply bg-primary text-primary-foreground hover:bg-primary-dark shadow-lg hover:shadow-xl transition-all duration-300 ease-royal;
+  }
+  
+  .btn-royal-outline {
+    @apply border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300 ease-royal;
+  }
+  
+  .btn-gold {
+    @apply bg-accent text-accent-foreground hover:bg-accent-dark shadow-md hover:shadow-lg transition-all duration-300 ease-royal;
+  }
+  
+  /* Royal Card Effects */
+  .card-royal {
+    @apply bg-card border border-border shadow-elegant hover:shadow-premium-shadow transition-all duration-500 ease-premium;
+  }
+  
+  .card-royal:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* Premium Gradients */
+  .gradient-royal {
+    background: var(--royal-gradient);
+  }
+  
+  .gradient-royal-subtle {
+    background: var(--royal-gradient-subtle);
+  }
+  
+  /* Gold Shine Effect */
+  .gold-shine {
+    position: relative;
+  }
+  
+  .gold-shine::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent 30%, hsl(48 69% 53% / 0.1) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease-royal;
+  }
+  
+  .gold-shine:hover::before {
+    transform: translateX(100%);
+  }
+  
+  /* Royal Typography */
+  .text-royal {
+    @apply text-primary font-semibold;
+  }
+  
+  .text-gold {
+    @apply text-accent font-medium;
+  }
+  
+  /* WhatsApp Integration */
+  .whatsapp-float {
+    @apply fixed bottom-6 right-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-all duration-300 hover:scale-110;
   }
 }
