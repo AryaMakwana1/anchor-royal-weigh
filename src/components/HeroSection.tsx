@@ -7,9 +7,9 @@ const HeroSection = () => {
     <section id="home" className="relative min-h-[80vh] flex items-center overflow-hidden">
       {/* Background Image with Overlay */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-zoom"
         style={{
-          backgroundImage: `linear-gradient(135deg, rgba(171, 35, 48, 0.85), rgba(17, 24, 39, 0.75)), url(${facilityBg})`
+          backgroundImage: `linear-gradient(135deg, rgba(17, 24, 39, 0.85), rgba(17, 24, 39, 0.75)), url(${facilityBg})`
         }}
       />
       
@@ -34,9 +34,9 @@ const HeroSection = () => {
 
           {/* Main Heading */}
           <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-            <span className="block">Precision.</span>
+            <span className="block text-accent">Precision.</span>
             <span className="block text-accent">Innovation.</span>
-            <span className="block text-lg lg:text-2xl font-medium opacity-90 mt-4">
+            <span className="block text-lg lg:text-2xl font-medium text-white opacity-90 mt-4">
               The Royal Standard in Weighing.
             </span>
           </h1>
@@ -51,17 +51,11 @@ const HeroSection = () => {
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
             <Button 
               size="lg" 
-              className="bg-accent hover:bg-accent-dark text-accent-foreground font-semibold px-8 py-4 text-lg group"
+              className="bg-accent hover:bg-accent-dark text-accent-foreground font-semibold px-8 py-4 text-lg group transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Explore Products
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-2 border-white text-white hover:bg-white hover:text-secondary font-semibold px-8 py-4 text-lg"
-            >
-              Get Quote
             </Button>
           </div>
 

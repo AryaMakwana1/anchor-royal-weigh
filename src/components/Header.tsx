@@ -1,7 +1,6 @@
 import { Phone, Mail, MapPin, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import srmLogo from '@/assets/srm-logo.png';
 import anchorLogo from '@/assets/anchor-digital-logo.jpg';
 
 const Header = () => {
@@ -33,14 +32,8 @@ const Header = () => {
       <header className="bg-background shadow-elegant border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            {/* Logos */}
-            <div className="flex items-center gap-6">
-              <img 
-                src={srmLogo} 
-                alt="Shree Ram Metal" 
-                className="h-12 w-auto"
-              />
-              <div className="h-12 w-px bg-border"></div>
+            {/* Logo */}
+            <div className="flex items-center">
               <img 
                 src={anchorLogo} 
                 alt="Anchor Digital" 

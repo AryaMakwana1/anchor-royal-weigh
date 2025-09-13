@@ -111,6 +111,16 @@ All colors MUST be HSL. Royal theme with premium manufacturing aesthetic.
 }
 
 @layer components {
+  /* Animation Keyframes */
+  @keyframes zoom {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.1);
+    }
+  }
+
   /* Royal Button Variants */
   .btn-royal {
     @apply bg-primary text-primary-foreground hover:bg-primary-dark shadow-lg hover:shadow-xl transition-all duration-300 ease-royal;
@@ -133,6 +143,7 @@ All colors MUST be HSL. Royal theme with premium manufacturing aesthetic.
     transform: translateY(-2px);
   }
   
+  
   /* Premium Gradients */
   .gradient-royal {
     background: var(--royal-gradient);
@@ -140,6 +151,11 @@ All colors MUST be HSL. Royal theme with premium manufacturing aesthetic.
   
   .gradient-royal-subtle {
     background: var(--royal-gradient-subtle);
+  }
+  
+  /* Zoom Animation for Hero Background */
+  .animate-zoom {
+    animation: zoom 20s ease-in-out infinite alternate;
   }
   
   /* Gold Shine Effect */
