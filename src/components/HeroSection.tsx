@@ -1,15 +1,20 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Award, Shield, Star } from 'lucide-react';
+import { ArrowRight, Award, Shield, Star, Phone, MessageCircle } from 'lucide-react';
+import { useState } from 'react';
+import QuoteModal from './QuoteModal';
 import facilityBg from '@/assets/facility-background.jpg';
 
 const HeroSection = () => {
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+
   return (
-    <section id="home" className="relative min-h-[80vh] flex items-center overflow-hidden">
+    <>
+      <section id="home" className="relative min-h-[80vh] flex items-center overflow-hidden">
       {/* Background Image with Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-zoom"
         style={{
-          backgroundImage: `linear-gradient(135deg, rgba(17, 24, 39, 0.85), rgba(17, 24, 39, 0.75)), url(${facilityBg})`
+          backgroundImage: `linear-gradient(135deg, rgba(17, 24, 39, 0.75), rgba(17, 24, 39, 0.7)), linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05)), url(${facilityBg})`
         }}
       />
       
@@ -57,6 +62,15 @@ const HeroSection = () => {
               Explore Products
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="border-2 border-white text-white hover:bg-white hover:text-secondary font-semibold px-8 py-4 text-lg group transition-all duration-300 hover:scale-105"
+              onClick={() => setIsQuoteModalOpen(true)}
+            >
+              Request Quote
+              <MessageCircle className="ml-2 h-5 w-5" />
+            </Button>
           </div>
 
           {/* Stats */}
@@ -80,6 +94,13 @@ const HeroSection = () => {
       {/* Animated Elements */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent"></div>
     </section>
+
+    <QuoteModal 
+      isOpen={isQuoteModalOpen}
+      onClose={() => setIsQuoteModalOpen(false)}
+      productName="General Inquiry"
+    />
+  </>
   );
 };
 
