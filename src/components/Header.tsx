@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Menu, X } from 'lucide-react';
+import { Phone, Mail, MapPin, Menu, X, Linkedin, Facebook, Instagram } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import anchorLogo from '@/assets/anchor-digital-logo.jpg';
@@ -21,9 +21,38 @@ const Header = () => {
               <span>anchordigitalscale@gmail.com</span>
             </div>
           </div>
-          <div className="flex items-center gap-1">
-            <MapPin className="h-4 w-4" />
-            <span>Savarkundla, Gujarat</span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1">
+              <MapPin className="h-4 w-4" />
+              <span>Savarkundla, Gujarat</span>
+            </div>
+            {/* Social Media Icons */}
+            <div className="flex items-center gap-3">
+              <a 
+                href="https://www.linkedin.com/company/anchor-digital-scale/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-secondary-foreground hover:text-accent transition-colors"
+              >
+                <Linkedin className="h-4 w-4" />
+              </a>
+              <a 
+                href="https://www.facebook.com/groups/1118617721942618/members/admins" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-secondary-foreground hover:text-accent transition-colors"
+              >
+                <Facebook className="h-4 w-4" />
+              </a>
+              <a 
+                href="https://www.instagram.com/_anchordigital/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-secondary-foreground hover:text-accent transition-colors"
+              >
+                <Instagram className="h-4 w-4" />
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -32,13 +61,17 @@ const Header = () => {
       <header className="bg-background shadow-elegant border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            {/* Logo */}
-            <div className="flex items-center">
+            {/* Logo and Company Name */}
+            <div className="flex items-center gap-4">
               <img 
                 src={anchorLogo} 
                 alt="Anchor Digital" 
                 className="h-16 w-auto"
               />
+              <div className="hidden sm:block">
+                <h1 className="text-2xl font-bold text-primary">Anchor Digital</h1>
+                <p className="text-sm text-muted-foreground">The Royal Standard in Weighing</p>
+              </div>
             </div>
 
             {/* Desktop Navigation */}

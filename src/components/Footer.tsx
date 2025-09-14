@@ -9,7 +9,11 @@ import {
   Building,
   Globe,
   Star,
-  CheckCircle
+  CheckCircle,
+  Clock,
+  Linkedin,
+  Facebook,
+  Instagram
 } from 'lucide-react';
 import srmLogo from '@/assets/srm-logo.png';
 import anchorLogo from '@/assets/anchor-digital-logo.jpg';
@@ -79,6 +83,27 @@ const Footer = () => {
                 <span>anchordigitalscale@gmail.com</span>
               </div>
             </div>
+            {/* Business Hours */}
+            <div className="mt-6 p-4 bg-white/5 rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <Clock className="h-4 w-4 text-accent" />
+                <span className="text-sm font-semibold">Business Hours</span>
+              </div>
+              <div className="text-sm space-y-1">
+                <div className="flex justify-between">
+                  <span>Monday - Saturday:</span>
+                  <span className="font-medium">7:00 AM - 7:00 PM</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Sunday:</span>
+                  <span className="font-medium">7:00 AM - 2:00 PM</span>
+                </div>
+                <p className="text-xs text-secondary-foreground/60 mt-2">
+                  24/7 WhatsApp Support Available
+                </p>
+              </div>
+            </div>
+            
             <Button 
               onClick={handleWhatsAppClick}
               className="mt-4 bg-green-600 hover:bg-green-700 w-full"
@@ -86,6 +111,37 @@ const Footer = () => {
               <MessageSquare className="h-4 w-4 mr-2" />
               WhatsApp Support
             </Button>
+            
+            {/* Social Media Icons */}
+            <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/10">
+              <span className="text-sm font-medium">Follow Us:</span>
+              <div className="flex gap-3">
+                <a 
+                  href="https://www.linkedin.com/company/anchor-digital-scale/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors group"
+                >
+                  <Linkedin className="h-4 w-4 text-secondary-foreground group-hover:text-accent" />
+                </a>
+                <a 
+                  href="https://www.facebook.com/groups/1118617721942618/members/admins" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors group"
+                >
+                  <Facebook className="h-4 w-4 text-secondary-foreground group-hover:text-accent" />
+                </a>
+                <a 
+                  href="https://www.instagram.com/_anchordigital/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors group"
+                >
+                  <Instagram className="h-4 w-4 text-secondary-foreground group-hover:text-accent" />
+                </a>
+              </div>
+            </div>
           </div>
 
           {/* Quick Links */}

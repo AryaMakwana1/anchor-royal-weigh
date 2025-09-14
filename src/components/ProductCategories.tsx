@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, MessageCircle, Star, Award } from 'lucide-react';
+import QuoteModal from './QuoteModal';
 
 // Import new product images
 import platformScale1 from '@/assets/products/AD-P21_SupdaModel_100Kg_10gm_400-500-600Sqmm.png';
@@ -112,6 +114,14 @@ const products = [
 ];
 
 const ProductCategories = () => {
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<string>('');
+
+  const handleQuoteClick = (productName: string) => {
+    setSelectedProduct(productName);
+    setIsQuoteModalOpen(true);
+  };
+
   return (
     <section id="products" className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -195,7 +205,8 @@ const ProductCategories = () => {
                     <div className="flex gap-2">
                       <Button 
                         size="sm" 
-                        className="flex-1 bg-accent hover:bg-accent-dark text-accent-foreground hover:scale-105 transition-all duration-300"
+                        className="flex-1 bg-primary hover:bg-primary-dark text-primary-foreground hover:scale-105 transition-all duration-300"
+                        onClick={() => alert('Shopping cart functionality requires Supabase integration. Click the green Supabase button to set up backend functionality.')}
                       >
                         <ShoppingCart className="h-4 w-4 mr-2" />
                         Add to Cart
@@ -203,7 +214,8 @@ const ProductCategories = () => {
                       <Button 
                         size="sm" 
                         variant="outline" 
-                        className="border-accent text-accent hover:bg-accent hover:text-accent-foreground hover:scale-105 transition-all duration-300"
+                        className="border-primary text-primary hover:bg-primary hover:text-primary-foreground hover:scale-105 transition-all duration-300"
+                        onClick={() => handleQuoteClick(`${details.model} - ${details.name}`)}
                       >
                         <MessageCircle className="h-4 w-4 mr-1" />
                         Quote
@@ -228,13 +240,21 @@ const ProductCategories = () => {
             </p>
             <Button 
               size="lg" 
-              className="bg-accent hover:bg-accent-dark text-accent-foreground hover:scale-105 transition-all duration-300"
+              className="bg-primary hover:bg-primary-dark text-primary-foreground hover:scale-105 transition-all duration-300"
+              onClick={() => handleQuoteClick('Weighing Scale Spare Parts')}
             >
               Browse Spare Parts
             </Button>
           </div>
         </div>
       </div>
+
+      {/* Quote Modal */}
+      <QuoteModal 
+        isOpen={isQuoteModalOpen}
+        onClose={() => setIsQuoteModalOpen(false)}
+        productName={selectedProduct}
+      />
     </section>
   );
 };
