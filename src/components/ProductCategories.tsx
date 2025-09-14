@@ -2,8 +2,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, MessageCircle, Star, Award } from 'lucide-react';
-import { useState } from 'react';
-import QuoteModal from './QuoteModal';
 
 // Import new product images
 import platformScale1 from '@/assets/products/AD-P21_SupdaModel_100Kg_10gm_400-500-600Sqmm.png';
@@ -114,154 +112,130 @@ const products = [
 ];
 
 const ProductCategories = () => {
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState('');
-
-  const handleQuoteClick = (productName: string) => {
-    setSelectedProduct(productName);
-    setIsQuoteModalOpen(true);
-  };
-
-  const handleAddToCart = (productName: string) => {
-    // This functionality requires backend integration
-    alert(`Shopping cart functionality requires Supabase integration. Please click the green Supabase button to enable cart features.\n\nProduct: ${productName}`);
-  };
-
   return (
-    <>
-      <section id="products" className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-accent/10 text-accent px-4 py-2 rounded-full mb-4">
-              <Award className="h-5 w-5" />
-              <span className="font-medium">Premium Quality Products</span>
-            </div>
-            <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
-              Our <span className="text-accent">Product Range</span>
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Discover our comprehensive collection of precision weighing scales designed for various industries. 
-              Each product combines accuracy, durability, and cutting-edge technology.
+    <section id="products" className="py-20 bg-muted/30">
+      <div className="container mx-auto px-4">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-accent/10 text-accent px-4 py-2 rounded-full mb-4">
+            <Award className="h-5 w-5" />
+            <span className="font-medium">Premium Quality Products</span>
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
+            Our <span className="text-accent">Product Range</span>
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Discover our comprehensive collection of precision weighing scales designed for various industries. 
+            Each product combines accuracy, durability, and cutting-edge technology.
+          </p>
+        </div>
+
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16">
+          {products.map((product) => {
+            const details = parseProductDetails(product.filename);
+            
+            return (
+              <Card key={product.id} className="card-royal group hover:shadow-premium transition-all duration-500">
+                <CardContent className="p-0">
+                  {/* Product Image */}
+                  <div className="relative overflow-hidden rounded-t-lg">
+                    <img
+                      src={product.image}
+                      alt={`${details.model} - ${details.name}`}
+                      className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    {product.isBestSeller && (
+                      <Badge className="absolute top-4 left-4 bg-accent text-accent-foreground">
+                        <Star className="h-3 w-3 mr-1" />
+                        Best Seller
+                      </Badge>
+                    )}
+                  </div>
+
+                  {/* Product Details */}
+                  <div className="p-6">
+                    <div className="mb-3">
+                      <Badge variant="outline" className="text-xs mb-2">
+                        {product.category}
+                      </Badge>
+                      <h3 className="font-bold text-lg text-foreground mb-1">
+                        {details.model}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {details.name} - {details.type}
+                      </p>
+                    </div>
+
+                    {/* Specifications */}
+                    <div className="space-y-1 text-sm text-muted-foreground mb-4">
+                      <div className="flex justify-between">
+                        <span>Capacity:</span>
+                        <span className="font-medium text-foreground">{details.capacity}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Accuracy:</span>
+                        <span className="font-medium text-foreground">{details.accuracy}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Platform:</span>
+                        <span className="font-medium text-foreground">{details.platterSize}</span>
+                      </div>
+                    </div>
+
+                    {/* Price */}
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-2xl font-bold text-accent">{product.price}</span>
+                      <Badge variant="secondary" className="text-xs">
+                        GST Extra
+                      </Badge>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-2">
+                      <Button 
+                        size="sm" 
+                        className="flex-1 bg-accent hover:bg-accent-dark text-accent-foreground hover:scale-105 transition-all duration-300"
+                      >
+                        <ShoppingCart className="h-4 w-4 mr-2" />
+                        Add to Cart
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="border-accent text-accent hover:bg-accent hover:text-accent-foreground hover:scale-105 transition-all duration-300"
+                      >
+                        <MessageCircle className="h-4 w-4 mr-1" />
+                        Quote
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+
+        {/* Spare Parts Section */}
+        <div className="bg-gradient-royal-subtle rounded-2xl p-8 text-center">
+          <div className="max-w-2xl mx-auto">
+            <h3 className="text-2xl font-bold text-foreground mb-4">
+              Weighing Scale Spare Parts
+            </h3>
+            <p className="text-muted-foreground mb-6">
+              Complete range of genuine spare parts and accessories for all weighing scale models. 
+              Ensure optimal performance with authentic components.
             </p>
-          </div>
-
-          {/* Products Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16">
-            {products.map((product) => {
-              const details = parseProductDetails(product.filename);
-              
-              return (
-                <Card key={product.id} className="card-royal group hover:shadow-premium transition-all duration-500">
-                  <CardContent className="p-0">
-                    {/* Product Image */}
-                    <div className="relative overflow-hidden rounded-t-lg">
-                      <img
-                        src={product.image}
-                        alt={`${details.model} - ${details.name}`}
-                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      {product.isBestSeller && (
-                        <Badge className="absolute top-4 left-4 bg-accent text-accent-foreground">
-                          <Star className="h-3 w-3 mr-1" />
-                          Best Seller
-                        </Badge>
-                      )}
-                    </div>
-
-                    {/* Product Details */}
-                    <div className="p-6">
-                      <div className="mb-3">
-                        <Badge variant="outline" className="text-xs mb-2">
-                          {product.category}
-                        </Badge>
-                        <h3 className="font-bold text-lg text-foreground mb-1">
-                          {details.model}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {details.name} - {details.type}
-                        </p>
-                      </div>
-
-                      {/* Specifications */}
-                      <div className="space-y-1 text-sm text-muted-foreground mb-4">
-                        <div className="flex justify-between">
-                          <span>Capacity:</span>
-                          <span className="font-medium text-foreground">{details.capacity}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Accuracy:</span>
-                          <span className="font-medium text-foreground">{details.accuracy}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Platform:</span>
-                          <span className="font-medium text-foreground">{details.platterSize}</span>
-                        </div>
-                      </div>
-
-                      {/* Price */}
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="text-2xl font-bold text-accent">{product.price}</span>
-                        <Badge variant="secondary" className="text-xs">
-                          GST Extra
-                        </Badge>
-                      </div>
-
-                      {/* Action Buttons */}
-                      <div className="flex gap-2">
-                        <Button 
-                          size="sm" 
-                          className="flex-1 bg-accent hover:bg-accent-dark text-accent-foreground hover:scale-105 transition-all duration-300"
-                          onClick={() => handleAddToCart(`${details.model} - ${details.name}`)}
-                        >
-                          <ShoppingCart className="h-4 w-4 mr-2" />
-                          Add to Cart
-                        </Button>
-                        <Button 
-                          size="sm" 
-                          variant="outline" 
-                          className="border-accent text-accent hover:bg-accent hover:text-accent-foreground hover:scale-105 transition-all duration-300"
-                          onClick={() => handleQuoteClick(`${details.model} - ${details.name}`)}
-                        >
-                          <MessageCircle className="h-4 w-4 mr-1" />
-                          Quote
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-
-          {/* Spare Parts Section */}
-          <div className="bg-gradient-royal-subtle rounded-2xl p-8 text-center">
-            <div className="max-w-2xl mx-auto">
-              <h3 className="text-2xl font-bold text-foreground mb-4">
-                Weighing Scale Spare Parts
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                Complete range of genuine spare parts and accessories for all weighing scale models. 
-                Ensure optimal performance with authentic components.
-              </p>
-              <Button 
-                size="lg" 
-                className="bg-accent hover:bg-accent-dark text-accent-foreground hover:scale-105 transition-all duration-300"
-                onClick={() => handleQuoteClick('Spare Parts Inquiry')}
-              >
-                Browse Spare Parts
-              </Button>
-            </div>
+            <Button 
+              size="lg" 
+              className="bg-accent hover:bg-accent-dark text-accent-foreground hover:scale-105 transition-all duration-300"
+            >
+              Browse Spare Parts
+            </Button>
           </div>
         </div>
-      </section>
-
-      <QuoteModal 
-        isOpen={isQuoteModalOpen}
-        onClose={() => setIsQuoteModalOpen(false)}
-        productName={selectedProduct}
-      />
-    </>
+      </div>
+    </section>
   );
 };
 
