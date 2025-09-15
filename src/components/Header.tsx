@@ -26,13 +26,12 @@ const Header = () => {
               <MapPin className="h-4 w-4" />
               <span>Savarkundla, Gujarat</span>
             </div>
-            {/* Social Media Icons */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <a 
                 href="https://www.linkedin.com/company/anchor-digital-scale/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-secondary-foreground hover:text-accent transition-colors"
+                className="hover:text-primary transition-colors"
               >
                 <Linkedin className="h-4 w-4" />
               </a>
@@ -40,7 +39,7 @@ const Header = () => {
                 href="https://www.facebook.com/groups/1118617721942618/members/admins" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-secondary-foreground hover:text-accent transition-colors"
+                className="hover:text-primary transition-colors"
               >
                 <Facebook className="h-4 w-4" />
               </a>
@@ -48,7 +47,7 @@ const Header = () => {
                 href="https://www.instagram.com/_anchordigital/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-secondary-foreground hover:text-accent transition-colors"
+                className="hover:text-primary transition-colors"
               >
                 <Instagram className="h-4 w-4" />
               </a>
@@ -61,16 +60,16 @@ const Header = () => {
       <header className="bg-background shadow-elegant border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            {/* Logo and Company Name */}
-            <div className="flex items-center gap-4">
+            {/* Logo */}
+            <div className="flex items-center gap-3">
               <img 
                 src={anchorLogo} 
                 alt="Anchor Digital" 
                 className="h-16 w-auto"
               />
-              <div className="hidden sm:block">
+              <div className="flex flex-col">
                 <h1 className="text-2xl font-bold text-primary">Anchor Digital</h1>
-                <p className="text-sm text-muted-foreground">The Royal Standard in Weighing</p>
+                <p className="text-sm text-muted-foreground">Precision Weighing Solutions</p>
               </div>
             </div>
 

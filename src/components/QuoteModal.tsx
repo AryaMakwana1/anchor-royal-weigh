@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { MessageSquare, Phone } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { X, Send } from 'lucide-react';
 
 interface QuoteModalProps {
   isOpen: boolean;
@@ -15,122 +15,164 @@ interface QuoteModalProps {
 const QuoteModal = ({ isOpen, onClose, productName }: QuoteModalProps) => {
   const [formData, setFormData] = useState({
     name: '',
+    company: '',
     phone: '',
     email: '',
-    company: '',
+    location: '',
+    productInterest: productName || '',
+    orderVolume: '',
     message: ''
   });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Create WhatsApp message with form data
-    const message = `
-*Quote Request - Anchor Digital*
+    // Create WhatsApp message
+    const message = `Quote Request from ${formData.name}
 
-Product: ${productName || 'General Inquiry'}
-Name: ${formData.name}
+Company: ${formData.company}
 Phone: ${formData.phone}
 Email: ${formData.email}
-Company: ${formData.company}
-Message: ${formData.message}
-    `.trim();
-    
+Location: ${formData.location}
+Product Interest: ${formData.productInterest}
+Order Volume: ${formData.orderVolume}
+
+Message: ${formData.message}`;
+
     const whatsappUrl = `https://wa.me/919377446942?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
     
+    // Reset form and close modal
+    setFormData({
+      name: '',
+      company: '',
+      phone: '',
+      email: '',
+      location: '',
+      productInterest: productName || '',
+      orderVolume: '',
+      message: ''
+    });
     onClose();
-    setFormData({ name: '', phone: '', email: '', company: '', message: '' });
-  };
-
-  const handleDirectCall = () => {
-    window.open('tel:+919377446942', '_self');
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-primary">
+          <DialogTitle className="flex items-center justify-between">
             Request Quote
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className="h-6 w-6"
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </DialogTitle>
-          {productName && (
-            <p className="text-sm text-muted-foreground">
-              For: {productName}
-            </p>
-          )}
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="name">Name *</Label>
+              <Input
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="company">Company</Label>
+              <Input
+                id="company"
+                name="company"
+                value={formData.company}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="phone">Phone *</Label>
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
+          
           <div>
-            <Label htmlFor="name">Name *</Label>
+            <Label htmlFor="location">Location</Label>
             <Input
-              id="name"
-              value={formData.name}
-              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-              required
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleInputChange}
             />
           </div>
           
           <div>
-            <Label htmlFor="phone">Phone Number *</Label>
+            <Label htmlFor="productInterest">Product Interest</Label>
             <Input
-              id="phone"
-              type="tel"
-              value={formData.phone}
-              onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-              required
+              id="productInterest"
+              name="productInterest"
+              value={formData.productInterest}
+              onChange={handleInputChange}
             />
           </div>
           
           <div>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="orderVolume">Expected Order Volume</Label>
             <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+              id="orderVolume"
+              name="orderVolume"
+              value={formData.orderVolume}
+              onChange={handleInputChange}
+              placeholder="e.g., 10 units, 100 pieces"
             />
           </div>
           
           <div>
-            <Label htmlFor="company">Company</Label>
-            <Input
-              id="company"
-              value={formData.company}
-              onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
-            />
-          </div>
-          
-          <div>
-            <Label htmlFor="message">Requirements</Label>
+            <Label htmlFor="message">Additional Message</Label>
             <Textarea
               id="message"
-              placeholder="Please describe your requirements, quantity needed, etc."
+              name="message"
               value={formData.message}
-              onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+              onChange={handleInputChange}
               rows={3}
             />
           </div>
           
-          <div className="flex gap-2 pt-4">
-            <Button 
-              type="submit" 
-              className="flex-1 bg-green-600 hover:bg-green-700"
-            >
-              <MessageSquare className="h-4 w-4 mr-2" />
-              Send via WhatsApp
-            </Button>
-            <Button 
-              type="button" 
-              variant="outline"
-              onClick={handleDirectCall}
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-            >
-              <Phone className="h-4 w-4 mr-2" />
-              Call Now
-            </Button>
-          </div>
+          <Button type="submit" className="w-full">
+            <Send className="h-4 w-4 mr-2" />
+            Send Quote Request
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

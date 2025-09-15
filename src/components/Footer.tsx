@@ -10,7 +10,6 @@ import {
   Globe,
   Star,
   CheckCircle,
-  Clock,
   Linkedin,
   Facebook,
   Instagram
@@ -83,27 +82,6 @@ const Footer = () => {
                 <span>anchordigitalscale@gmail.com</span>
               </div>
             </div>
-            {/* Business Hours */}
-            <div className="mt-6 p-4 bg-white/5 rounded-lg">
-              <div className="flex items-center gap-2 mb-3">
-                <Clock className="h-4 w-4 text-accent" />
-                <span className="text-sm font-semibold">Business Hours</span>
-              </div>
-              <div className="text-sm space-y-1">
-                <div className="flex justify-between">
-                  <span>Monday - Saturday:</span>
-                  <span className="font-medium">7:00 AM - 7:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Sunday:</span>
-                  <span className="font-medium">7:00 AM - 2:00 PM</span>
-                </div>
-                <p className="text-xs text-secondary-foreground/60 mt-2">
-                  24/7 WhatsApp Support Available
-                </p>
-              </div>
-            </div>
-            
             <Button 
               onClick={handleWhatsAppClick}
               className="mt-4 bg-green-600 hover:bg-green-700 w-full"
@@ -112,35 +90,32 @@ const Footer = () => {
               WhatsApp Support
             </Button>
             
-            {/* Social Media Icons */}
-            <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/10">
-              <span className="text-sm font-medium">Follow Us:</span>
-              <div className="flex gap-3">
-                <a 
-                  href="https://www.linkedin.com/company/anchor-digital-scale/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors group"
-                >
-                  <Linkedin className="h-4 w-4 text-secondary-foreground group-hover:text-accent" />
-                </a>
-                <a 
-                  href="https://www.facebook.com/groups/1118617721942618/members/admins" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors group"
-                >
-                  <Facebook className="h-4 w-4 text-secondary-foreground group-hover:text-accent" />
-                </a>
-                <a 
-                  href="https://www.instagram.com/_anchordigital/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors group"
-                >
-                  <Instagram className="h-4 w-4 text-secondary-foreground group-hover:text-accent" />
-                </a>
-              </div>
+            {/* Social Media Links */}
+            <div className="flex justify-center gap-4 mt-4">
+              <a 
+                href="https://www.linkedin.com/company/anchor-digital-scale/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors"
+              >
+                <Linkedin className="h-4 w-4 text-white" />
+              </a>
+              <a 
+                href="https://www.facebook.com/groups/1118617721942618/members/admins" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors"
+              >
+                <Facebook className="h-4 w-4 text-white" />
+              </a>
+              <a 
+                href="https://www.instagram.com/_anchordigital/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors"
+              >
+                <Instagram className="h-4 w-4 text-white" />
+              </a>
             </div>
           </div>
 
@@ -178,7 +153,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Certifications */}
+          {/* Certifications & Business Hours */}
           <div>
             <h4 className="text-lg font-semibold mb-6">Certifications</h4>
             <div className="grid grid-cols-1 gap-3 mb-6">
@@ -194,7 +169,7 @@ const Footer = () => {
                 );
               })}
             </div>
-            <div className="bg-white/10 p-4 rounded-lg">
+            <div className="bg-white/10 p-4 rounded-lg mb-6">
               <div className="flex items-center gap-2 mb-2">
                 <CheckCircle className="h-4 w-4 text-accent" />
                 <span className="text-sm font-semibold">GST Registered</span>
@@ -202,6 +177,19 @@ const Footer = () => {
               <p className="text-xs text-secondary-foreground/60">
                 GSTIN: 24ACHFS2624R1ZO
               </p>
+            </div>
+            
+            {/* Business Hours */}
+            <div className="bg-white/10 p-4 rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <CheckCircle className="h-4 w-4 text-accent" />
+                <span className="text-sm font-semibold">Business Hours</span>
+              </div>
+              <div className="space-y-1 text-xs text-secondary-foreground/80">
+                <p>Monday – Saturday: 7:00 AM – 7:00 PM</p>
+                <p>Sunday: 7:00 AM – 2:00 PM</p>
+                <p className="text-accent font-medium mt-2">24/7 WhatsApp Support</p>
+              </div>
             </div>
           </div>
         </div>
