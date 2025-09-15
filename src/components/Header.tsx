@@ -1,10 +1,13 @@
-import { Phone, Mail, MapPin, Menu, X, Linkedin, Facebook, Instagram } from 'lucide-react';
+import { Phone, Mail, MapPin, Menu, X, Linkedin, Facebook, Instagram, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
+import { useCart } from '@/contexts/CartContext';
 import anchorLogo from '@/assets/anchor-digital-logo.jpg';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { getTotalItems, setIsCartOpen } = useCart();
 
   return (
     <>
@@ -96,17 +99,55 @@ const Header = () => {
               >
                 Dealer Inquiry
               </Button>
+              
+              {/* Cart Icon */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative hover:bg-accent"
+                onClick={() => setIsCartOpen(true)}
+              >
+                <ShoppingCart className="h-5 w-5" />
+                {getTotalItems() > 0 && (
+                  <Badge 
+                    variant="destructive" 
+                    className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
+                  >
+                    {getTotalItems()}
+                  </Badge>
+                )}
+              </Button>
             </nav>
 
-            {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
+            {/* Mobile Navigation Controls */}
+            <div className="flex items-center gap-2 lg:hidden">
+              {/* Mobile Cart Icon */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative hover:bg-accent"
+                onClick={() => setIsCartOpen(true)}
+              >
+                <ShoppingCart className="h-5 w-5" />
+                {getTotalItems() > 0 && (
+                  <Badge 
+                    variant="destructive" 
+                    className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
+                  >
+                    {getTotalItems()}
+                  </Badge>
+                )}
+              </Button>
+              
+              {/* Mobile Menu Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </Button>
+            </div>
           </div>
 
           {/* Mobile Navigation */}

@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, MessageCircle, Star, Award } from 'lucide-react';
 import { useState } from 'react';
+import { useCart } from '@/contexts/CartContext';
+import { useToast } from '@/hooks/use-toast';
 import QuoteModal from './QuoteModal';
 
 // Import new product images
@@ -116,15 +118,36 @@ const products = [
 const ProductCategories = () => {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState('');
+  const { addToCart } = useCart();
+  const { toast } = useToast();
 
   const handleQuoteClick = (productName: string) => {
     setSelectedProduct(productName);
     setIsQuoteModalOpen(true);
   };
 
-  const handleAddToCart = (productName: string) => {
-    // This functionality requires backend integration
-    alert(`Shopping cart functionality requires Supabase integration. Please click the green Supabase button to enable cart features.\n\nProduct: ${productName}`);
+  const parsePrice = (priceString: string): number => {
+    // Remove ₹ symbol and commas, then convert to number
+    return parseInt(priceString.replace(/[₹,]/g, ''));
+  };
+
+  const handleAddToCart = (product: typeof products[0]) => {
+    const details = parseProductDetails(product.filename);
+    const productName = `${details.model} - ${details.name}`;
+    
+    addToCart({
+      id: product.id.toString(),
+      name: productName,
+      price: parsePrice(product.price),
+      image: product.image,
+      category: product.category,
+      specifications: `Capacity: ${details.capacity}, Accuracy: ${details.accuracy}`,
+    });
+
+    toast({
+      title: "Added to Cart!",
+      description: `${productName} has been added to your cart.`,
+    });
   };
 
   return (
@@ -212,7 +235,7 @@ const ProductCategories = () => {
                         <Button 
                           size="sm" 
                           className="flex-1 bg-accent hover:bg-accent-dark text-accent-foreground hover:scale-105 transition-all duration-300"
-                          onClick={() => handleAddToCart(`${details.model} - ${details.name}`)}
+                          onClick={() => handleAddToCart(product)}
                         >
                           <ShoppingCart className="h-4 w-4 mr-2" />
                           Add to Cart
