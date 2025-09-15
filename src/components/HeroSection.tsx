@@ -71,6 +71,15 @@ const HeroSection = () => {
               Request Quote
               <MessageCircle className="ml-2 h-5 w-5" />
             </Button>
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground font-semibold px-8 py-4 text-lg group transition-all duration-300 hover:scale-105"
+              onClick={() => window.open('tel:+919377446942', '_self')}
+            >
+              Call for Consultation
+              <Phone className="ml-2 h-5 w-5" />
+            </Button>
           </div>
 
           {/* Stats */}
