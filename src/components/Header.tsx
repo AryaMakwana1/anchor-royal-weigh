@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
 import { useCart } from '@/contexts/CartContext';
-import anchorLogo from '@/assets/anchor-digital-logo.jpg';
+import anchorLogo from '@/assets/anchor-digital-logo-new.jpg';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

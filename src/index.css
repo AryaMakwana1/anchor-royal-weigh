@@ -121,6 +121,21 @@ All colors MUST be HSL. Royal theme with premium manufacturing aesthetic.
     }
   }
 
+  @keyframes scale-in-bounce {
+    0% {
+      transform: scale(0.2);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
   /* Royal Button Variants */
   .btn-royal {
     @apply bg-primary text-primary-foreground hover:bg-primary-dark shadow-lg hover:shadow-xl transition-all duration-300 ease-royal;
