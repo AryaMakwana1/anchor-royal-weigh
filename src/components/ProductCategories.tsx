@@ -154,20 +154,18 @@ const ProductCategories = () => {
     <>
       <section id="products" className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
-          {/* Section Header - SEO Optimized */}
+          {/* Section Header */}
           <div className="text-center mb-16">
-            <div className="glass-card inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4">
-              <Award className="h-5 w-5 text-accent" />
-              <span className="font-medium text-accent">Electronic Weighing Machine Range</span>
+            <div className="inline-flex items-center gap-2 bg-accent/10 text-accent px-4 py-2 rounded-full mb-4">
+              <Award className="h-5 w-5" />
+              <span className="font-medium">Premium Quality Products</span>
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
-              <span className="text-accent">Digital Weighing Scales</span> & Electronic Weighing Machines
+              Our <span className="text-accent">Product Range</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Comprehensive collection of <strong>electronic weighing machines</strong>, <strong>platform weighing scales</strong>, 
-              <strong>table top weighing scales</strong>, and <strong>industrial weighing solutions</strong>. 
-              Each product manufactured in Gujarat combines precision accuracy, durability, and cutting-edge technology 
-              for businesses across India.
+              Discover our comprehensive collection of precision weighing scales designed for various industries. 
+              Each product combines accuracy, durability, and cutting-edge technology.
             </p>
           </div>
 
@@ -181,11 +179,11 @@ const ProductCategories = () => {
                   <CardContent className="p-0">
                     {/* Product Image */}
                     <div className="relative overflow-hidden rounded-t-lg">
-                        <img
-                          src={product.image}
-                          alt={`${details.model} - ${details.name} Electronic Weighing Machine - Digital Weighing Scale`}
-                          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
+                      <img
+                        src={product.image}
+                        alt={`${details.model} - ${details.name}`}
+                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
                       {product.isBestSeller && (
                         <Badge className="absolute top-4 left-4 bg-accent text-accent-foreground">
                           <Star className="h-3 w-3 mr-1" />
@@ -259,23 +257,22 @@ const ProductCategories = () => {
             })}
           </div>
 
-          {/* Spare Parts Section - SEO Enhanced */}
-          <div className="glass-card p-8 text-center">
+          {/* Spare Parts Section */}
+          <div className="bg-gradient-royal-subtle rounded-2xl p-8 text-center">
             <div className="max-w-2xl mx-auto">
               <h3 className="text-2xl font-bold text-foreground mb-4">
-                Electronic Weighing Scale Spare Parts & Accessories
+                Weighing Scale Spare Parts
               </h3>
               <p className="text-muted-foreground mb-6">
-                Complete range of genuine spare parts and accessories for all <strong>digital weighing scale</strong> models. 
-                Ensure optimal performance of your <strong>electronic weighing machines</strong> with authentic components 
-                manufactured in Gujarat, India.
+                Complete range of genuine spare parts and accessories for all weighing scale models. 
+                Ensure optimal performance with authentic components.
               </p>
               <Button 
                 size="lg" 
                 className="bg-accent hover:bg-accent-dark text-accent-foreground hover:scale-105 transition-all duration-300"
-                onClick={() => handleQuoteClick('Electronic Weighing Machine Spare Parts Inquiry')}
+                onClick={() => handleQuoteClick('Spare Parts Inquiry')}
               >
-                Browse Weighing Scale Spare Parts
+                Browse Spare Parts
               </Button>
             </div>
           </div>

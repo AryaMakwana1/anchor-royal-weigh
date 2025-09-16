@@ -7,18 +7,14 @@ const AboutSection = () => {
   return (
     <section id="about" className="py-20 bg-background">
       <div className="container mx-auto px-4">
-        {/* Section Header - SEO Optimized */}
+        {/* Section Header */}
         <div className="text-center mb-16">
           <Badge variant="outline" className="mb-4 text-primary border-primary">
-            About Anchor Digital
+            About Us
           </Badge>
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            <span className="text-primary">Electronic Weighing Machine</span> Excellence Since 1998
+            Excellence in <span className="text-primary">Precision</span> Since 1998
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Leading manufacturer of <strong>digital weighing scales</strong> and <strong>electronic weighing machines</strong> in Gujarat, India. 
-            Serving Savarkundla, Amreli, Ahmedabad and pan-India with ISO 9001:2015 certified quality.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-16">
@@ -44,15 +40,13 @@ const AboutSection = () => {
 
             <div className="prose prose-lg max-w-none">
               <p className="text-muted-foreground mb-4 leading-relaxed">
-                With over 25 years of experience in the <strong>electronic weighing machine</strong> industry, Shaileshbhai has built 
-                Shree Ram Metal into one of India's most trusted manufacturers of <strong>digital weighing scales</strong> and 
-                <strong>industrial weighing solutions</strong> based in Gujarat.
+                With over 25 years of experience in the weighing industry, Shaileshbhai has built 
+                Shree Ram Metal into one of India's most trusted manufacturers of digital weighing solutions.
               </p>
               <p className="text-muted-foreground mb-6 leading-relaxed">
-                His commitment to precision, quality, and customer satisfaction has made <strong>Anchor Digital</strong> 
-                a preferred choice for businesses across Gujarat, including Savarkundla, Amreli, and Ahmedabad. 
-                From small jewelry shops requiring <strong>analytical weighing scales</strong> to large factories needing 
-                <strong>heavy duty platform weighing scales</strong>.
+                His commitment to precision, quality, and customer satisfaction has made Anchor Digital 
+                a preferred choice for businesses across various industries, from small retailers to 
+                large manufacturing units.
               </p>
             </div>
 

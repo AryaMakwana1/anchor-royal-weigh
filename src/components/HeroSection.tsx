@@ -23,33 +23,33 @@ const HeroSection = () => {
         <div className="max-w-4xl">
           {/* Trust Badges */}
           <div className="flex flex-wrap items-center gap-4 mb-8">
-            <div className="glass-card flex items-center gap-2 px-4 py-2 rounded-full">
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
               <Award className="h-5 w-5 text-accent" />
               <span className="text-white text-sm font-medium">ISO 9001:2015</span>
             </div>
-            <div className="glass-card flex items-center gap-2 px-4 py-2 rounded-full">
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
               <Shield className="h-5 w-5 text-accent" />
               <span className="text-white text-sm font-medium">Make in India</span>
             </div>
-            <div className="glass-card flex items-center gap-2 px-4 py-2 rounded-full">
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
               <Star className="h-5 w-5 text-accent" />
               <span className="text-white text-sm font-medium">25+ Years Excellence</span>
             </div>
           </div>
 
-          {/* Main Heading - SEO Optimized */}
+          {/* Main Heading */}
           <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-            <span className="block text-accent">Electronic Weighing Machine</span>
-            <span className="block text-accent">Manufacturer India</span>
+            <span className="block text-accent">Precision.</span>
+            <span className="block text-accent">Innovation.</span>
             <span className="block text-lg lg:text-2xl font-medium text-white opacity-90 mt-4">
-              Premium Digital Weighing Scales by Anchor Digital
+              The Royal Standard in Weighing.
             </span>
           </h1>
 
-          {/* Subheading - SEO Optimized */}
+          {/* Subheading */}
           <p className="text-xl lg:text-2xl text-white/90 mb-8 max-w-2xl leading-relaxed">
-            Leading manufacturer of premium <strong>electronic weighing machines</strong> and <strong>digital weighing scales</strong> in India. 
-            ISO 9001:2015 certified with Make in India certification. Trusted by 10,000+ businesses across Gujarat and India.
+            Leading manufacturer of premium digital and electronic weighing scales. 
+            Trusted by businesses across India for accuracy, durability, and innovation.
           </p>
 
           {/* CTA Buttons */}
@@ -59,12 +59,13 @@ const HeroSection = () => {
               className="bg-accent hover:bg-accent-dark text-accent-foreground font-semibold px-8 py-4 text-lg group transition-all duration-300 hover:scale-105 hover:shadow-xl"
               onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Explore Electronic Weighing Machines
+              Explore Products
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button 
               size="lg" 
-              className="bg-primary hover:bg-primary-dark text-primary-foreground border-2 border-primary font-semibold px-8 py-4 text-lg group transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              variant="outline"
+              className="border-2 border-white text-white hover:bg-white hover:text-secondary font-semibold px-8 py-4 text-lg group transition-all duration-300 hover:scale-105"
               onClick={() => setIsQuoteModalOpen(true)}
             >
               Request Quote
@@ -72,7 +73,8 @@ const HeroSection = () => {
             </Button>
             <Button 
               size="lg" 
-              className="glass-card border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground font-semibold px-8 py-4 text-lg group transition-all duration-300 hover:scale-105"
+              variant="outline"
+              className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground font-semibold px-8 py-4 text-lg group transition-all duration-300 hover:scale-105"
               onClick={() => window.open('tel:+919377446942', '_self')}
             >
               Call for Consultation
