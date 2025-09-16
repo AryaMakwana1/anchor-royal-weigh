@@ -161,12 +161,11 @@ const ProductCategories = () => {
               <span className="font-medium">Premium Quality Products</span>
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
-              Electronic Weighing Machines & <span className="text-accent">Digital Scales</span>
+              Our <span className="text-accent">Product Range</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Comprehensive range of electronic weighing machines, digital weighing scales, platform scales, table top scales, 
-              analytical scales, and industrial weighing solutions. ISO certified products with warranty and service support 
-              across Gujarat, Rajasthan, Maharashtra. Best prices for B2B and retail customers.
+              Discover our comprehensive collection of precision weighing scales designed for various industries. 
+              Each product combines accuracy, durability, and cutting-edge technology.
             </p>
           </div>
 

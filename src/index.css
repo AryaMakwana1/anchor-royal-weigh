@@ -149,15 +149,6 @@ All colors MUST be HSL. Royal theme with premium manufacturing aesthetic.
     @apply bg-accent text-accent-foreground hover:bg-accent-dark shadow-md hover:shadow-lg transition-all duration-300 ease-royal;
   }
   
-  /* High Contrast Request Quote Button */
-  .btn-request-quote-light {
-    @apply bg-primary text-primary-foreground hover:bg-primary-dark border-2 border-primary shadow-lg hover:shadow-xl;
-  }
-  
-  .btn-request-quote-dark {
-    @apply bg-primary-foreground text-primary hover:bg-background border-2 border-primary-foreground shadow-lg hover:shadow-xl;
-  }
-  
   /* Royal Card Effects */
   .card-royal {
     @apply bg-card border border-border shadow-elegant hover:shadow-premium transition-all duration-500 ease-premium;

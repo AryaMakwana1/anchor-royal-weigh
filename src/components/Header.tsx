@@ -9,19 +9,6 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getTotalItems, setIsCartOpen } = useCart();
 
-  const smoothScrollTo = (elementId: string) => {
-    const element = document.getElementById(elementId);
-    if (element) {
-      const headerHeight = 120; // Account for sticky header
-      const elementPosition = element.offsetTop - headerHeight;
-      window.scrollTo({
-        top: elementPosition,
-        behavior: 'smooth'
-      });
-    }
-    setIsMenuOpen(false);
-  };
-
   return (
     <>
       {/* Top Contact Bar */}
@@ -48,7 +35,6 @@ const Header = () => {
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:text-primary transition-colors"
-                aria-label="Follow us on LinkedIn"
               >
                 <Linkedin className="h-4 w-4" />
               </a>
@@ -57,7 +43,6 @@ const Header = () => {
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:text-primary transition-colors"
-                aria-label="Follow us on Facebook"
               >
                 <Facebook className="h-4 w-4" />
               </a>
@@ -66,7 +51,6 @@ const Header = () => {
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:text-primary transition-colors"
-                aria-label="Follow us on Instagram"
               >
                 <Instagram className="h-4 w-4" />
               </a>
@@ -75,8 +59,8 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Main Header - Sticky */}
-      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm shadow-elegant border-b transition-all duration-300">
+      {/* Main Header */}
+      <header className="bg-background shadow-elegant border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
             {/* Logo */}
@@ -94,21 +78,21 @@ const Header = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-8">
-              <button onClick={() => smoothScrollTo('home')} className="text-foreground hover:text-primary transition-colors font-medium">
+              <a href="#home" className="text-foreground hover:text-primary transition-colors font-medium">
                 Home
-              </button>
-              <button onClick={() => smoothScrollTo('about')} className="text-foreground hover:text-primary transition-colors font-medium">
+              </a>
+              <a href="#about" className="text-foreground hover:text-primary transition-colors font-medium">
                 About
-              </button>
-              <button onClick={() => smoothScrollTo('products')} className="text-foreground hover:text-primary transition-colors font-medium">
+              </a>
+              <a href="#products" className="text-foreground hover:text-primary transition-colors font-medium">
                 Products
-              </button>
-              <button onClick={() => smoothScrollTo('services')} className="text-foreground hover:text-primary transition-colors font-medium">
+              </a>
+              <a href="#services" className="text-foreground hover:text-primary transition-colors font-medium">
                 Services
-              </button>
-              <button onClick={() => smoothScrollTo('contact')} className="text-foreground hover:text-primary transition-colors font-medium">
+              </a>
+              <a href="#contact" className="text-foreground hover:text-primary transition-colors font-medium">
                 Contact
-              </button>
+              </a>
               <Button 
                 variant="outline" 
                 className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
@@ -170,21 +154,21 @@ const Header = () => {
           {isMenuOpen && (
             <nav className="lg:hidden mt-4 pb-4 border-t pt-4">
               <div className="flex flex-col gap-4">
-                <button onClick={() => smoothScrollTo('home')} className="text-left text-foreground hover:text-primary transition-colors font-medium">
+                <a href="#home" className="text-foreground hover:text-primary transition-colors font-medium">
                   Home
-                </button>
-                <button onClick={() => smoothScrollTo('about')} className="text-left text-foreground hover:text-primary transition-colors font-medium">
+                </a>
+                <a href="#about" className="text-foreground hover:text-primary transition-colors font-medium">
                   About
-                </button>
-                <button onClick={() => smoothScrollTo('products')} className="text-left text-foreground hover:text-primary transition-colors font-medium">
+                </a>
+                <a href="#products" className="text-foreground hover:text-primary transition-colors font-medium">
                   Products
-                </button>
-                <button onClick={() => smoothScrollTo('services')} className="text-left text-foreground hover:text-primary transition-colors font-medium">
+                </a>
+                <a href="#services" className="text-foreground hover:text-primary transition-colors font-medium">
                   Services
-                </button>
-                <button onClick={() => smoothScrollTo('contact')} className="text-left text-foreground hover:text-primary transition-colors font-medium">
+                </a>
+                <a href="#contact" className="text-foreground hover:text-primary transition-colors font-medium">
                   Contact
-                </button>
+                </a>
                 <Button 
                   variant="outline" 
                   className="border-primary text-primary hover:bg-primary hover:text-primary-foreground w-fit"
