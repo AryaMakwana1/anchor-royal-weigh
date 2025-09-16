@@ -46,12 +46,24 @@ All colors MUST be HSL. Royal theme with premium manufacturing aesthetic.
     --popover: 0 0% 100%;
     --popover-foreground: 220 39% 11%;
     
-    /* Royal Design Tokens */
+/* Royal Design Tokens */
     --royal-gradient: linear-gradient(135deg, hsl(352 65% 42%), hsl(352 65% 30%));
     --royal-gradient-subtle: linear-gradient(135deg, hsl(352 65% 42% / 0.1), hsl(352 65% 30% / 0.05));
     --premium-shadow: 0 10px 40px -10px hsl(352 65% 42% / 0.3);
     --elegant-shadow: 0 4px 20px -4px hsl(220 39% 11% / 0.15);
     --gold-shine: 0 0 30px hsl(48 69% 53% / 0.4);
+    
+    /* Liquid Glass Effects */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-blur: blur(20px);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --glass-reflection: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, transparent 50%);
+    
+    /* Light Mode Glass */
+    --glass-light-bg: rgba(255, 255, 255, 0.25);
+    --glass-light-border: rgba(255, 255, 255, 0.18);
+    --glass-light-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
     
     /* Animation Easings */
     --ease-royal: cubic-bezier(0.4, 0, 0.2, 1);
@@ -97,6 +109,14 @@ All colors MUST be HSL. Royal theme with premium manufacturing aesthetic.
     --royal-gradient: linear-gradient(135deg, hsl(352 65% 55%), hsl(352 65% 40%));
     --royal-gradient-subtle: linear-gradient(135deg, hsl(352 65% 55% / 0.2), hsl(352 65% 40% / 0.1));
     --premium-shadow: 0 10px 40px -10px hsl(352 65% 55% / 0.4);
+    
+    /* Dark Mode Glass Effects */
+    --glass-bg: rgba(17, 24, 39, 0.3);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --glass-light-bg: rgba(17, 24, 39, 0.4);
+    --glass-light-border: rgba(255, 255, 255, 0.15);
+    --glass-light-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   }
 }
 
@@ -149,13 +169,51 @@ All colors MUST be HSL. Royal theme with premium manufacturing aesthetic.
     @apply bg-accent text-accent-foreground hover:bg-accent-dark shadow-md hover:shadow-lg transition-all duration-300 ease-royal;
   }
   
-  /* Royal Card Effects */
+  /* Liquid Glass Components */
+  .glass-card {
+    background: var(--glass-light-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-light-border);
+    box-shadow: var(--glass-light-shadow);
+    @apply rounded-2xl transition-all duration-500 ease-premium;
+  }
+  
+  .glass-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--premium-shadow);
+  }
+  
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--glass-reflection);
+    @apply rounded-t-2xl;
+  }
+  
+  /* Royal Card Effects - Enhanced with Glass */
   .card-royal {
-    @apply bg-card border border-border shadow-elegant hover:shadow-premium transition-all duration-500 ease-premium;
+    @apply glass-card relative overflow-hidden;
   }
   
   .card-royal:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px) scale(1.02);
+  }
+  
+  /* Glass Button Variants */
+  .btn-glass {
+    background: var(--glass-light-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-light-border);
+    @apply text-foreground hover:scale-105 transition-all duration-300 rounded-xl;
+  }
+  
+  .btn-glass:hover {
+    background: var(--glass-bg);
+    box-shadow: var(--glass-light-shadow);
   }
   
   
