@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppFloat from '@/components/WhatsAppFloat';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -17,11 +18,15 @@ import {
   Package,
   CreditCard,
   Truck,
-  ShieldCheck
+  ShieldCheck,
+  User
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import AuthModal from '@/components/AuthModal';
+import { useState } from 'react';
 
 const Cart = () => {
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const { 
     items, 
     removeFromCart, 
@@ -31,6 +36,7 @@ const Cart = () => {
     getGST, 
     getFinalTotal 
   } = useCart();
+  const { user, signOut } = useAuth();
   const { toast } = useToast();
 
   const handleQuantityChange = (id: string, newQuantity: number) => {
@@ -86,6 +92,32 @@ Thank you!`;
     });
   };
 
+  if (!user) {
+    return (
+      <div className="min-h-screen">
+        <Header />
+        <main className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl mx-auto text-center">
+              <User className="h-24 w-24 mx-auto text-muted-foreground mb-6" />
+              <h1 className="text-4xl font-bold mb-4">Please Sign In</h1>
+              <p className="text-xl text-muted-foreground mb-8">
+                You need to sign in to view your cart.
+              </p>
+              <Button size="lg" onClick={() => setShowAuthModal(true)}>
+                <User className="h-5 w-5 mr-2" />
+                Sign In
+              </Button>
+            </div>
+          </div>
+        </main>
+        <Footer />
+        <WhatsAppFloat />
+        <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+      </div>
+    );
+  }
+
   if (items.length === 0) {
     return (
       <div className="min-h-screen">
@@ -132,18 +164,27 @@ Thank you!`;
       <main className="py-20">
         <div className="container mx-auto px-4">
           {/* Page Header */}
-          <div className="flex items-center gap-4 mb-8">
-            <Link to="/products">
-              <Button variant="outline" size="sm">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Continue Shopping
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+            <div className="flex items-center gap-4">
+              <Link to="/products">
+                <Button variant="outline" size="sm">
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Continue Shopping
+                </Button>
+              </Link>
+              <div>
+                <h1 className="text-4xl font-bold">Shopping Cart</h1>
+                <p className="text-muted-foreground">
+                  {items.length} {items.length === 1 ? 'item' : 'items'} in your cart
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Signed in as {user.email}</span>
+              <Button variant="outline" size="sm" onClick={signOut}>
+                Sign Out
               </Button>
-            </Link>
-            <div>
-              <h1 className="text-4xl font-bold">Shopping Cart</h1>
-              <p className="text-muted-foreground">
-                {items.length} {items.length === 1 ? 'item' : 'items'} in your cart
-              </p>
             </div>
           </div>
 
