@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Award, Shield, Star, Phone, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import QuoteModal from './QuoteModal';
 import facilityBg from '@/assets/facility-background.jpg';
 
@@ -54,14 +55,15 @@ const HeroSection = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <Button 
-              size="lg" 
-              className="bg-accent hover:bg-accent-dark text-accent-foreground font-semibold px-8 py-4 text-lg group transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Explore Products
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <Link to="/products">
+              <Button 
+                size="lg" 
+                className="bg-accent hover:bg-accent-dark text-accent-foreground font-semibold px-8 py-4 text-lg group transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              >
+                Explore Products
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
             <Button 
               size="lg" 
               className="bg-primary hover:bg-primary-dark text-primary-foreground font-semibold px-8 py-4 text-lg group transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-2 border-primary"

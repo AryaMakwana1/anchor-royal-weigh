@@ -2,24 +2,17 @@ import { Phone, Mail, MapPin, Menu, X, Linkedin, Facebook, Instagram, ShoppingCa
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '@/contexts/CartContext';
 import anchorLogo from '@/assets/anchor-digital-logo-new.jpg';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getTotalItems, setIsCartOpen } = useCart();
+  const location = useLocation();
 
-  const smoothScrollTo = (elementId: string) => {
-    const element = document.getElementById(elementId);
-    if (element) {
-      const headerHeight = 120; // Account for sticky header
-      const elementPosition = element.offsetTop - headerHeight;
-      window.scrollTo({
-        top: elementPosition,
-        behavior: 'smooth'
-      });
-    }
-    setIsMenuOpen(false);
+  const isActivePage = (path: string) => {
+    return location.pathname === path;
   };
 
   return (
@@ -80,7 +73,7 @@ const Header = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <div className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-3">
               <img 
                 src={anchorLogo} 
                 alt="Anchor Digital" 
@@ -90,25 +83,40 @@ const Header = () => {
                 <h1 className="text-2xl font-bold text-primary">Anchor Digital</h1>
                 <p className="text-sm text-muted-foreground">Precision Weighing Solutions</p>
               </div>
-            </div>
+            </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-8">
-              <button onClick={() => smoothScrollTo('home')} className="text-foreground hover:text-primary transition-colors font-medium">
+              <Link 
+                to="/" 
+                className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/') ? 'text-primary font-semibold' : ''}`}
+              >
                 Home
-              </button>
-              <button onClick={() => smoothScrollTo('about')} className="text-foreground hover:text-primary transition-colors font-medium">
+              </Link>
+              <Link 
+                to="/about" 
+                className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/about') ? 'text-primary font-semibold' : ''}`}
+              >
                 About
-              </button>
-              <button onClick={() => smoothScrollTo('products')} className="text-foreground hover:text-primary transition-colors font-medium">
+              </Link>
+              <Link 
+                to="/products" 
+                className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/products') ? 'text-primary font-semibold' : ''}`}
+              >
                 Products
-              </button>
-              <button onClick={() => smoothScrollTo('services')} className="text-foreground hover:text-primary transition-colors font-medium">
+              </Link>
+              <Link 
+                to="/services" 
+                className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/services') ? 'text-primary font-semibold' : ''}`}
+              >
                 Services
-              </button>
-              <button onClick={() => smoothScrollTo('contact')} className="text-foreground hover:text-primary transition-colors font-medium">
+              </Link>
+              <Link 
+                to="/contact" 
+                className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/contact') ? 'text-primary font-semibold' : ''}`}
+              >
                 Contact
-              </button>
+              </Link>
               <Button 
                 variant="outline" 
                 className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
@@ -117,43 +125,45 @@ const Header = () => {
               </Button>
               
               {/* Cart Icon */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="relative hover:bg-accent"
-                onClick={() => setIsCartOpen(true)}
-              >
-                <ShoppingCart className="h-5 w-5" />
-                {getTotalItems() > 0 && (
-                  <Badge 
-                    variant="destructive" 
-                    className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
-                  >
-                    {getTotalItems()}
-                  </Badge>
-                )}
-              </Button>
+              <Link to="/cart">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={`relative hover:bg-accent ${isActivePage('/cart') ? 'bg-accent' : ''}`}
+                >
+                  <ShoppingCart className="h-5 w-5" />
+                  {getTotalItems() > 0 && (
+                    <Badge 
+                      variant="destructive" 
+                      className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
+                    >
+                      {getTotalItems()}
+                    </Badge>
+                  )}
+                </Button>
+              </Link>
             </nav>
 
             {/* Mobile Navigation Controls */}
             <div className="flex items-center gap-2 lg:hidden">
               {/* Mobile Cart Icon */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="relative hover:bg-accent"
-                onClick={() => setIsCartOpen(true)}
-              >
-                <ShoppingCart className="h-5 w-5" />
-                {getTotalItems() > 0 && (
-                  <Badge 
-                    variant="destructive" 
-                    className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
-                  >
-                    {getTotalItems()}
-                  </Badge>
-                )}
-              </Button>
+              <Link to="/cart">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={`relative hover:bg-accent ${isActivePage('/cart') ? 'bg-accent' : ''}`}
+                >
+                  <ShoppingCart className="h-5 w-5" />
+                  {getTotalItems() > 0 && (
+                    <Badge 
+                      variant="destructive" 
+                      className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
+                    >
+                      {getTotalItems()}
+                    </Badge>
+                  )}
+                </Button>
+              </Link>
               
               {/* Mobile Menu Button */}
               <Button
@@ -170,21 +180,41 @@ const Header = () => {
           {isMenuOpen && (
             <nav className="lg:hidden mt-4 pb-4 border-t pt-4">
               <div className="flex flex-col gap-4">
-                <button onClick={() => smoothScrollTo('home')} className="text-left text-foreground hover:text-primary transition-colors font-medium">
+                <Link 
+                  to="/" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`text-left text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/') ? 'text-primary font-semibold' : ''}`}
+                >
                   Home
-                </button>
-                <button onClick={() => smoothScrollTo('about')} className="text-left text-foreground hover:text-primary transition-colors font-medium">
+                </Link>
+                <Link 
+                  to="/about" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`text-left text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/about') ? 'text-primary font-semibold' : ''}`}
+                >
                   About
-                </button>
-                <button onClick={() => smoothScrollTo('products')} className="text-left text-foreground hover:text-primary transition-colors font-medium">
+                </Link>
+                <Link 
+                  to="/products" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`text-left text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/products') ? 'text-primary font-semibold' : ''}`}
+                >
                   Products
-                </button>
-                <button onClick={() => smoothScrollTo('services')} className="text-left text-foreground hover:text-primary transition-colors font-medium">
+                </Link>
+                <Link 
+                  to="/services" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`text-left text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/services') ? 'text-primary font-semibold' : ''}`}
+                >
                   Services
-                </button>
-                <button onClick={() => smoothScrollTo('contact')} className="text-left text-foreground hover:text-primary transition-colors font-medium">
+                </Link>
+                <Link 
+                  to="/contact" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`text-left text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/contact') ? 'text-primary font-semibold' : ''}`}
+                >
                   Contact
-                </button>
+                </Link>
                 <Button 
                   variant="outline" 
                   className="border-primary text-primary hover:bg-primary hover:text-primary-foreground w-fit"
