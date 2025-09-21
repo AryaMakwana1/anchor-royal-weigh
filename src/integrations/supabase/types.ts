@@ -67,30 +67,78 @@ export type Database = {
           },
         ]
       }
-      products: {
+      contacts: {
         Row: {
           created_at: string
-          description: string | null
+          email: string
           id: string
-          image_url: string | null
+          message: string
           name: string
-          price: number
         }
         Insert: {
           created_at?: string
-          description?: string | null
+          email: string
           id?: string
-          image_url?: string | null
+          message: string
           name: string
-          price: number
         }
         Update: {
           created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          accuracy: string | null
+          capacity: string | null
+          category: string | null
+          created_at: string
+          description: string | null
+          gst_note: string | null
+          id: string
+          image_url: string | null
+          is_best_seller: boolean | null
+          model_name: string | null
+          name: string
+          platform: string | null
+          price: number
+          product_code: string | null
+        }
+        Insert: {
+          accuracy?: string | null
+          capacity?: string | null
+          category?: string | null
+          created_at?: string
           description?: string | null
+          gst_note?: string | null
           id?: string
           image_url?: string | null
+          is_best_seller?: boolean | null
+          model_name?: string | null
+          name: string
+          platform?: string | null
+          price: number
+          product_code?: string | null
+        }
+        Update: {
+          accuracy?: string | null
+          capacity?: string | null
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          gst_note?: string | null
+          id?: string
+          image_url?: string | null
+          is_best_seller?: boolean | null
+          model_name?: string | null
           name?: string
+          platform?: string | null
           price?: number
+          product_code?: string | null
         }
         Relationships: []
       }

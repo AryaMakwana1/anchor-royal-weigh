@@ -117,12 +117,12 @@ const products = [
 
 const ProductCategories = () => {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState<{name: string} | null>(null);
   const { addToCart } = useCart();
   const { toast } = useToast();
 
   const handleQuoteClick = (productName: string) => {
-    setSelectedProduct(productName);
+    setSelectedProduct({ name: productName });
     setIsQuoteModalOpen(true);
   };
 
@@ -283,7 +283,7 @@ const ProductCategories = () => {
       <QuoteModal 
         isOpen={isQuoteModalOpen}
         onClose={() => setIsQuoteModalOpen(false)}
-        productName={selectedProduct}
+        product={selectedProduct}
       />
     </>
   );

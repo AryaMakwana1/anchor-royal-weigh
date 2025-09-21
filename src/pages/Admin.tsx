@@ -26,6 +26,14 @@ interface Product {
   description: string;
   price: number;
   image_url: string;
+  category: string;
+  product_code: string;
+  model_name: string;
+  capacity: string;
+  accuracy: string;
+  platform: string;
+  gst_note: string;
+  is_best_seller: boolean;
   created_at: string;
 }
 
@@ -43,6 +51,14 @@ const Admin = () => {
     description: '',
     price: '',
     image_url: '',
+    category: '',
+    product_code: '',
+    model_name: '',
+    capacity: '',
+    accuracy: '',
+    platform: '',
+    gst_note: 'GST Extra',
+    is_best_seller: false,
   });
 
   const { user, signOut, isAdmin } = useAuth();
@@ -122,6 +138,14 @@ const Admin = () => {
         description: formData.description,
         price: parseFloat(formData.price),
         image_url: formData.image_url,
+        category: formData.category,
+        product_code: formData.product_code,
+        model_name: formData.model_name,
+        capacity: formData.capacity,
+        accuracy: formData.accuracy,
+        platform: formData.platform,
+        gst_note: formData.gst_note,
+        is_best_seller: formData.is_best_seller,
       };
 
       if (editingProduct) {
@@ -168,6 +192,14 @@ const Admin = () => {
       description: product.description || '',
       price: product.price.toString(),
       image_url: product.image_url || '',
+      category: product.category || '',
+      product_code: product.product_code || '',
+      model_name: product.model_name || '',
+      capacity: product.capacity || '',
+      accuracy: product.accuracy || '',
+      platform: product.platform || '',
+      gst_note: product.gst_note || 'GST Extra',
+      is_best_seller: product.is_best_seller || false,
     });
     setShowAddDialog(true);
   };
@@ -205,14 +237,24 @@ const Admin = () => {
       description: '',
       price: '',
       image_url: '',
+      category: '',
+      product_code: '',
+      model_name: '',
+      capacity: '',
+      accuracy: '',
+      platform: '',
+      gst_note: 'GST Extra',
+      is_best_seller: false,
     });
     setEditingProduct(null);
     setShowAddDialog(false);
   };
 
   const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.description?.toLowerCase().includes(searchTerm.toLowerCase())
+    (product.model_name || product.name).toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.product_code?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.category?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (!isAdmin) {
@@ -293,11 +335,82 @@ const Admin = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Product Name</Label>
+                    <Label htmlFor="category">Category</Label>
+                    <Input
+                      id="category"
+                      value={formData.category}
+                      onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+                      placeholder="e.g., Platform Scales, Crane Scales"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="product_code">Product Code</Label>
+                    <Input
+                      id="product_code"
+                      value={formData.product_code}
+                      onChange={(e) => setFormData(prev => ({ ...prev, product_code: e.target.value }))}
+                      placeholder="e.g., AD-P21, AD-CS02"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="model_name">Model Name</Label>
+                  <Input
+                    id="model_name"
+                    value={formData.model_name}
+                    onChange={(e) => setFormData(prev => ({ ...prev, model_name: e.target.value }))}
+                    placeholder="e.g., SupdaModel - Electronic Weighing Scale"
+                    required
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="capacity">Capacity</Label>
+                    <Input
+                      id="capacity"
+                      value={formData.capacity}
+                      onChange={(e) => setFormData(prev => ({ ...prev, capacity: e.target.value }))}
+                      placeholder="e.g., 100Kg"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="accuracy">Accuracy</Label>
+                    <Input
+                      id="accuracy"
+                      value={formData.accuracy}
+                      onChange={(e) => setFormData(prev => ({ ...prev, accuracy: e.target.value }))}
+                      placeholder="e.g., 10gm"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="platform">Platform</Label>
+                    <Input
+                      id="platform"
+                      value={formData.platform}
+                      onChange={(e) => setFormData(prev => ({ ...prev, platform: e.target.value }))}
+                      placeholder="e.g., 400-500-600Sqmm"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Display Name</Label>
                     <Input
                       id="name"
                       value={formData.name}
                       onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                      placeholder="Short product name"
                       required
                     />
                   </div>
@@ -314,6 +427,29 @@ const Admin = () => {
                     />
                   </div>
                 </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="gst_note">GST Note</Label>
+                    <Input
+                      id="gst_note"
+                      value={formData.gst_note}
+                      onChange={(e) => setFormData(prev => ({ ...prev, gst_note: e.target.value }))}
+                      placeholder="e.g., GST Extra"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2 flex items-center gap-2 pt-6">
+                    <input
+                      type="checkbox"
+                      id="is_best_seller"
+                      checked={formData.is_best_seller}
+                      onChange={(e) => setFormData(prev => ({ ...prev, is_best_seller: e.target.checked }))}
+                      className="h-4 w-4"
+                    />
+                    <Label htmlFor="is_best_seller">Mark as Best Seller</Label>
+                  </div>
+                </div>
                 
                 <div className="space-y-2">
                   <Label htmlFor="description">Description</Label>
@@ -322,6 +458,7 @@ const Admin = () => {
                     value={formData.description}
                     onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                     rows={3}
+                    placeholder="Additional product details..."
                   />
                 </div>
                 
@@ -380,10 +517,12 @@ const Admin = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Image</TableHead>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Description</TableHead>
+                    <TableHead>Code</TableHead>
+                    <TableHead>Model Name</TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Capacity</TableHead>
                     <TableHead>Price</TableHead>
-                    <TableHead>Created</TableHead>
+                    <TableHead>Best Seller</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -393,21 +532,29 @@ const Admin = () => {
                       <TableCell>
                         <img
                           src={product.image_url}
-                          alt={product.name}
+                          alt={product.model_name || product.name}
                           className="w-12 h-12 object-cover rounded"
                         />
                       </TableCell>
                       <TableCell className="font-medium">
-                        {product.name}
+                        {product.product_code}
                       </TableCell>
                       <TableCell className="max-w-xs">
-                        <div className="truncate">
-                          {product.description}
+                        <div className="truncate font-medium">
+                          {product.model_name || product.name}
                         </div>
                       </TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{product.category}</Badge>
+                      </TableCell>
+                      <TableCell>{product.capacity}</TableCell>
                       <TableCell>₹{product.price.toLocaleString()}</TableCell>
                       <TableCell>
-                        {new Date(product.created_at).toLocaleDateString()}
+                        {product.is_best_seller && (
+                          <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
+                            ⭐ Best
+                          </Badge>
+                        )}
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">

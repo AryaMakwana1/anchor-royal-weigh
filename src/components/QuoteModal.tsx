@@ -9,17 +9,22 @@ import { X, Send } from 'lucide-react';
 interface QuoteModalProps {
   isOpen: boolean;
   onClose: () => void;
-  productName?: string;
+  product?: {
+    model_name?: string;
+    product_code?: string;
+    name: string;
+  } | null;
 }
 
-const QuoteModal = ({ isOpen, onClose, productName }: QuoteModalProps) => {
+const QuoteModal = ({ isOpen, onClose, product }: QuoteModalProps) => {
+  const productName = product ? (product.model_name || product.name) : '';
   const [formData, setFormData] = useState({
     name: '',
     company: '',
     phone: '',
     email: '',
     location: '',
-    productInterest: productName || '',
+    productInterest: productName,
     orderVolume: '',
     message: ''
   });
@@ -56,7 +61,7 @@ Message: ${formData.message}`;
       phone: '',
       email: '',
       location: '',
-      productInterest: productName || '',
+      productInterest: productName,
       orderVolume: '',
       message: ''
     });

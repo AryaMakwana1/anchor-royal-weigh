@@ -12,8 +12,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Search, ShoppingCart, User } from 'lucide-react';
+import { Search, ShoppingCart, User, Star, Quote } from 'lucide-react';
 import AuthModal from '@/components/AuthModal';
+import QuoteModal from '@/components/QuoteModal';
 
 interface Product {
   id: string;
@@ -21,6 +22,14 @@ interface Product {
   description: string;
   price: number;
   image_url: string;
+  category: string;
+  product_code: string;
+  model_name: string;
+  capacity: string;
+  accuracy: string;
+  platform: string;
+  gst_note: string;
+  is_best_seller: boolean;
 }
 
 const Products = () => {
@@ -30,6 +39,8 @@ const Products = () => {
   const [sortBy, setSortBy] = useState('name');
   const [loading, setLoading] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showQuoteModal, setShowQuoteModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   
   const { addToCart } = useCart();
   const { user, signOut } = useAuth();
@@ -94,12 +105,17 @@ const Products = () => {
 
     await addToCart({
       id: product.id,
-      name: product.name,
+      name: product.model_name || product.name,
       price: product.price,
       image: product.image_url,
-      category: 'Electronic Weighing Machine',
-      specifications: product.description,
+      category: product.category || 'Electronic Weighing Machine',
+      specifications: `${product.capacity} | ${product.accuracy} | ${product.platform}`,
     });
+  };
+
+  const handleQuoteRequest = (product: Product) => {
+    setSelectedProduct(product);
+    setShowQuoteModal(true);
   };
 
   return (
@@ -180,37 +196,90 @@ const Products = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProducts.map((product) => (
-                <Card key={product.id} className="group hover:shadow-lg transition-shadow">
+                <Card key={product.id} className="group hover:shadow-lg transition-shadow relative">
                   <CardContent className="p-6">
-                    <div className="aspect-square mb-4 overflow-hidden rounded-lg bg-muted">
+                    {/* Best Seller Badge */}
+                    {product.is_best_seller && (
+                      <Badge 
+                        variant="destructive" 
+                        className="absolute top-4 right-4 z-10 bg-gradient-to-r from-yellow-500 to-orange-500 text-white"
+                      >
+                        <Star className="h-3 w-3 mr-1" />
+                        Best Seller
+                      </Badge>
+                    )}
+
+                    <div className="aspect-square mb-4 overflow-hidden rounded-lg bg-muted relative">
                       <img
                         src={product.image_url}
-                        alt={product.name}
+                        alt={product.model_name || product.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                       />
                     </div>
                     
-                    <div className="space-y-2">
-                      <Badge variant="secondary" className="text-xs">
-                        Electronic Scale
+                    <div className="space-y-3">
+                      {/* Category Tag */}
+                      <Badge variant="outline" className="text-xs font-medium">
+                        {product.category || 'Electronic Scale'}
                       </Badge>
-                      <h3 className="font-semibold text-lg line-clamp-2">
-                        {product.name}
+
+                      {/* Product Code */}
+                      <div className="text-sm font-bold text-primary">
+                        {product.product_code}
+                      </div>
+
+                      {/* Model Name */}
+                      <h3 className="font-semibold text-lg line-clamp-2 leading-tight">
+                        {product.model_name || product.name}
                       </h3>
-                      <p className="text-sm text-muted-foreground line-clamp-2">
-                        {product.description}
-                      </p>
-                      <div className="flex items-center justify-between pt-2">
-                        <span className="text-2xl font-bold text-primary">
-                          ₹{product.price.toLocaleString()}
-                        </span>
-                        <Button
-                          onClick={() => handleAddToCart(product)}
-                          size="sm"
-                        >
-                          <ShoppingCart className="h-4 w-4 mr-2" />
-                          Add to Cart
-                        </Button>
+                      
+                      {/* Product Details */}
+                      <div className="space-y-1 text-sm text-muted-foreground">
+                        <div className="flex justify-between">
+                          <span>Capacity:</span>
+                          <span className="font-medium">{product.capacity}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Accuracy:</span>
+                          <span className="font-medium">{product.accuracy}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Platform:</span>
+                          <span className="font-medium text-xs">{product.platform}</span>
+                        </div>
+                      </div>
+
+                      {/* Price Section */}
+                      <div className="pt-3 border-t">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-2xl font-bold text-primary">
+                            ₹{product.price.toLocaleString()}
+                          </span>
+                          <Badge variant="secondary" className="text-xs">
+                            {product.gst_note}
+                          </Badge>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="grid grid-cols-2 gap-2">
+                          <Button
+                            onClick={() => handleAddToCart(product)}
+                            size="sm"
+                            className="w-full"
+                          >
+                            <ShoppingCart className="h-4 w-4 mr-1" />
+                            Add to Cart
+                          </Button>
+                          <Button
+                            onClick={() => handleQuoteRequest(product)}
+                            variant="outline"
+                            size="sm"
+                            className="w-full"
+                          >
+                            <Quote className="h-4 w-4 mr-1" />
+                            Quote
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
@@ -231,6 +300,11 @@ const Products = () => {
       <WhatsAppFloat />
       <CartSidebar />
       <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+      <QuoteModal 
+        isOpen={showQuoteModal} 
+        onClose={() => setShowQuoteModal(false)} 
+        product={selectedProduct}
+      />
     </div>
   );
 };

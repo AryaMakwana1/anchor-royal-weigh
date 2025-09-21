@@ -1,14 +1,19 @@
-import { Phone, Mail, MapPin, Menu, X, Linkedin, Facebook, Instagram, ShoppingCart } from 'lucide-react';
+import { Phone, Mail, MapPin, Menu, X, Linkedin, Facebook, Instagram, ShoppingCart, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
+import UserProfile from '@/components/UserProfile';
+import AuthModal from '@/components/AuthModal';
 import anchorLogo from '@/assets/anchor-digital-logo-new.jpg';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const { getTotalItems, setIsCartOpen } = useCart();
+  const { user } = useAuth();
   const location = useLocation();
 
   const isActivePage = (path: string) => {
@@ -123,6 +128,20 @@ const Header = () => {
               >
                 Dealer Inquiry
               </Button>
+
+              {/* Authentication */}
+              {user ? (
+                <UserProfile />
+              ) : (
+                <Button
+                  variant="outline"
+                  onClick={() => setShowAuthModal(true)}
+                  className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                >
+                  <User className="h-4 w-4 mr-2" />
+                  Sign In
+                </Button>
+              )}
               
               {/* Cart Icon */}
               <Link to="/cart">
@@ -146,6 +165,19 @@ const Header = () => {
 
             {/* Mobile Navigation Controls */}
             <div className="flex items-center gap-2 lg:hidden">
+              {/* Mobile Authentication */}
+              {user ? (
+                <UserProfile />
+              ) : (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setShowAuthModal(true)}
+                >
+                  <User className="h-5 w-5" />
+                </Button>
+              )}
+
               {/* Mobile Cart Icon */}
               <Link to="/cart">
                 <Button
@@ -226,6 +258,7 @@ const Header = () => {
           )}
         </div>
       </header>
+      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
     </>
   );
 };

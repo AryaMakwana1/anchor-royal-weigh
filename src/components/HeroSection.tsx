@@ -108,7 +108,7 @@ const HeroSection = () => {
     <QuoteModal 
       isOpen={isQuoteModalOpen}
       onClose={() => setIsQuoteModalOpen(false)}
-      productName="General Inquiry"
+      product={{ name: "General Inquiry" }}
     />
   </>
   );
