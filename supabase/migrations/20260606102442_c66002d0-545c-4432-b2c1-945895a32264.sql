@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.handle_new_user_admin_link() FROM PUBLIC, anon, authenticated;
