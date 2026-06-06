@@ -16,6 +16,8 @@ import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import Admin from "./pages/Admin";
 import AdminUsers from "./pages/AdminUsers";
+import AdminOrders from "./pages/AdminOrders";
+import MyOrders from "./pages/MyOrders";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -43,6 +45,15 @@ const App = () => {
                 <Route path="/services" element={<Services />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/my-orders" element={<MyOrders />} />
+                <Route
+                  path="/admin/orders"
+                  element={
+                    <ProtectedRoute requireAdmin>
+                      <AdminOrders />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route 
                   path="/admin" 
                   element={
