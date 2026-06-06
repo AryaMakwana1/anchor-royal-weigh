@@ -1,0 +1,60 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "products": "Products",
+    "services": "Services",
+    "contact": "Contact",
+    "cart": "Cart",
+    "my_orders": "My Orders",
+    "dealer_inquiry": "Dealer Inquiry",
+    "sign_in": "Sign In",
+    "sign_out": "Sign Out"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "browse": "Browse Products",
+    "subtotal": "Subtotal",
+    "gst": "GST (18%)",
+    "shipping": "Shipping",
+    "total": "Total Amount",
+    "checkout": "Place Inquiry / Order",
+    "continue": "Continue Shopping",
+    "remove": "Remove",
+    "qty": "Qty",
+    "free_shipping_above": "Free delivery above ₹50,000"
+  },
+  "checkout": {
+    "title": "Delivery Information",
+    "name": "Full Name",
+    "mobile": "Mobile Number",
+    "email": "Email Address",
+    "street": "Street Address",
+    "city": "City",
+    "state": "State",
+    "pincode": "Pincode",
+    "landmark": "Landmark (optional)",
+    "preferred_date": "Preferred Delivery Date",
+    "notes": "Additional Notes",
+    "place_order": "Submit Order Inquiry",
+    "submitting": "Submitting…",
+    "success": "Order received!",
+    "success_desc": "Your inquiry has been recorded. We've also opened WhatsApp so our team can follow up instantly.",
+    "shipping_calc": "Shipping is free for orders above ₹50,000. Below that, ₹500 standard."
+  },
+  "orders": {
+    "title": "My Orders",
+    "no_orders": "You haven't placed any orders yet.",
+    "order_no": "Order #",
+    "placed": "Placed",
+    "items": "Items",
+    "status": "Status",
+    "total": "Total",
+    "view": "View"
+  },
+  "common": {
+    "loading": "Loading…",
+    "currency": "₹"
+  }
+}
