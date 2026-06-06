@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Menu, X, Linkedin, Facebook, Instagram, ShoppingCart, User } from 'lucide-react';
+import { Phone, Mail, MapPin, Menu, X, Linkedin, Facebook, Instagram, ShoppingCart, User, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
@@ -7,9 +7,12 @@ import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import UserProfile from '@/components/UserProfile';
 import AuthModal from '@/components/AuthModal';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 import anchorLogo from '@/assets/anchor-digital-logo-new.jpg';
 
 const Header = () => {
+  const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const { getTotalItems, setIsCartOpen } = useCart();
@@ -92,42 +95,22 @@ const Header = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-8">
-              <Link 
-                to="/" 
-                className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/') ? 'text-primary font-semibold' : ''}`}
-              >
-                Home
-              </Link>
-              <Link 
-                to="/about" 
-                className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/about') ? 'text-primary font-semibold' : ''}`}
-              >
-                About
-              </Link>
-              <Link 
-                to="/products" 
-                className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/products') ? 'text-primary font-semibold' : ''}`}
-              >
-                Products
-              </Link>
-              <Link 
-                to="/services" 
-                className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/services') ? 'text-primary font-semibold' : ''}`}
-              >
-                Services
-              </Link>
-              <Link 
-                to="/contact" 
-                className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/contact') ? 'text-primary font-semibold' : ''}`}
-              >
-                Contact
-              </Link>
+              <Link to="/" className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/') ? 'text-primary font-semibold' : ''}`}>{t('nav.home')}</Link>
+              <Link to="/about" className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/about') ? 'text-primary font-semibold' : ''}`}>{t('nav.about')}</Link>
+              <Link to="/products" className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/products') ? 'text-primary font-semibold' : ''}`}>{t('nav.products')}</Link>
+              <Link to="/services" className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/services') ? 'text-primary font-semibold' : ''}`}>{t('nav.services')}</Link>
+              <Link to="/contact" className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/contact') ? 'text-primary font-semibold' : ''}`}>{t('nav.contact')}</Link>
+              {user && (
+                <Link to="/my-orders" className={`text-foreground hover:text-primary transition-colors font-medium ${isActivePage('/my-orders') ? 'text-primary font-semibold' : ''}`}>{t('nav.my_orders')}</Link>
+              )}
               <Button 
                 variant="outline" 
                 className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
               >
-                Dealer Inquiry
+                {t('nav.dealer_inquiry')}
               </Button>
+
+              <LanguageSwitcher />
 
               {/* Authentication */}
               {user ? (
@@ -139,7 +122,7 @@ const Header = () => {
                   className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                 >
                   <User className="h-4 w-4 mr-2" />
-                  Sign In
+                  {t('nav.sign_in')}
                 </Button>
               )}
               
@@ -165,6 +148,7 @@ const Header = () => {
 
             {/* Mobile Navigation Controls */}
             <div className="flex items-center gap-2 lg:hidden">
+              <LanguageSwitcher />
               {/* Mobile Authentication */}
               {user ? (
                 <UserProfile />

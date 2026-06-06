@@ -19,7 +19,8 @@ import {
   Search,
   Package,
   LogOut,
-  ShieldCheck
+  ShieldCheck,
+  Inbox
 } from 'lucide-react';
 
 interface Product {
@@ -297,6 +298,12 @@ const Admin = () => {
                 <Link to="/admin/users">
                   <ShieldCheck className="h-4 w-4 mr-2" />
                   Admin Users
+                </Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <Link to="/admin/orders">
+                  <Inbox className="h-4 w-4 mr-2" />
+                  Orders
                 </Link>
               </Button>
               <Button variant="outline" onClick={signOut}>

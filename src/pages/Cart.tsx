@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppFloat from '@/components/WhatsAppFloat';
@@ -9,6 +11,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { 
   ShoppingCart, 
   Minus, 
@@ -19,14 +24,32 @@ import {
   CreditCard,
   Truck,
   ShieldCheck,
-  User
+  User,
+  MessageCircle
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import AuthModal from '@/components/AuthModal';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [delivery, setDelivery] = useState({
+    customer_name: '',
+    mobile: '',
+    email: '',
+    street: '',
+    city: '',
+    state: 'Gujarat',
+    pincode: '',
+    landmark: '',
+    preferred_date: '',
+    notes: '',
+  });
   const { 
     items, 
     removeFromCart, 
@@ -38,6 +61,9 @@ const Cart = () => {
   } = useCart();
   const { user, signOut } = useAuth();
   const { toast } = useToast();
+
+  const shipping = useMemo(() => (getTotalPrice() >= 50000 || getTotalPrice() === 0 ? 0 : 500), [items]);
+  const grandTotal = getFinalTotal() + shipping;
 
   const handleQuantityChange = (id: string, newQuantity: number) => {
     if (newQuantity < 1) {
@@ -59,37 +85,58 @@ const Cart = () => {
     });
   };
 
-  const handleCheckout = () => {
-    if (items.length === 0) return;
-    
-    // Format order details for WhatsApp
-    const orderSummary = items.map(item => 
-      `• ${item.name} (${item.category})\n  Qty: ${item.quantity} × ₹${item.price.toLocaleString()} = ₹${(item.quantity * item.price).toLocaleString()}`
-    ).join('\n\n');
+  const submitOrder = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user || items.length === 0) return;
+    setSubmitting(true);
 
-    const whatsappMessage = `🛒 *New Order Request*
+    try {
+      const subtotal = getTotalPrice();
+      const gst = getGST();
+      const { data: order, error: oErr } = await supabase
+        .from('orders')
+        .insert({
+          user_id: user.id,
+          ...delivery,
+          preferred_date: delivery.preferred_date || null,
+          subtotal,
+          gst_amount: gst,
+          shipping_amount: shipping,
+          total_amount: grandTotal,
+          status: 'pending',
+          payment_method: 'inquiry',
+        })
+        .select('id, order_number')
+        .single();
+      if (oErr) throw oErr;
 
-*Order Details:*
-${orderSummary}
+      const { error: iErr } = await supabase.from('order_items').insert(
+        items.map((i) => ({
+          order_id: order!.id,
+          product_id: i.id,
+          product_name: i.name,
+          category: i.category,
+          unit_price: i.price,
+          quantity: i.quantity,
+          line_total: i.price * i.quantity,
+          image_url: i.image,
+        }))
+      );
+      if (iErr) throw iErr;
 
-*Order Summary:*
-Subtotal: ₹${getTotalPrice().toLocaleString()}
-GST (18%): ₹${getGST().toLocaleString()}
-*Total Amount: ₹${getFinalTotal().toLocaleString()}*
+      // Open WhatsApp summary
+      const summary = items.map((i) => `• ${i.name} ×${i.quantity} — ₹${(i.price * i.quantity).toLocaleString()}`).join('\n');
+      const msg = `🛒 *New Order ${order!.order_number}*\n${summary}\n\nSubtotal: ₹${subtotal.toLocaleString()}\nGST: ₹${gst.toLocaleString()}\nShipping: ₹${shipping.toLocaleString()}\n*Total: ₹${grandTotal.toLocaleString()}*\n\n${delivery.customer_name}, ${delivery.mobile}\n${delivery.street}, ${delivery.city} - ${delivery.pincode}`;
+      window.open(`https://wa.me/919377446942?text=${encodeURIComponent(msg)}`, '_blank');
 
-Please confirm this order and provide delivery details.
-
-Thank you!`;
-
-    const phoneNumber = '919377446942';
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-    
-    window.open(whatsappUrl, '_blank');
-    
-    toast({
-      title: "Redirecting to WhatsApp",
-      description: "Complete your order via WhatsApp chat.",
-    });
+      await clearCart();
+      toast({ title: t('checkout.success'), description: t('checkout.success_desc') });
+      navigate('/my-orders');
+    } catch (err: any) {
+      toast({ title: 'Error', description: err.message || 'Failed to submit order', variant: 'destructive' });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (!user) {
@@ -127,7 +174,7 @@ Thank you!`;
             <div className="max-w-2xl mx-auto text-center">
               <div className="mb-8">
                 <ShoppingCart className="h-24 w-24 mx-auto text-muted-foreground mb-6" />
-                <h1 className="text-4xl font-bold mb-4">Your Cart is Empty</h1>
+                <h1 className="text-4xl font-bold mb-4">{t('cart.empty')}</h1>
                 <p className="text-xl text-muted-foreground mb-8">
                   Looks like you haven't added any products to your cart yet.
                 </p>
@@ -137,14 +184,14 @@ Thank you!`;
                 <Link to="/products">
                   <Button size="lg" className="bg-primary hover:bg-primary-dark">
                     <Package className="h-5 w-5 mr-2" />
-                    Browse Products
+                    {t('cart.browse')}
                   </Button>
                 </Link>
                 <div>
-                  <Link to="/">
+                  <Link to="/my-orders">
                     <Button variant="outline" size="lg">
-                      <ArrowLeft className="h-5 w-5 mr-2" />
-                      Back to Home
+                      <Package className="h-5 w-5 mr-2" />
+                      {t('nav.my_orders')}
                     </Button>
                   </Link>
                 </div>
@@ -169,11 +216,11 @@ Thank you!`;
               <Link to="/products">
                 <Button variant="outline" size="sm">
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  Continue Shopping
+                  {t('cart.continue')}
                 </Button>
               </Link>
               <div>
-                <h1 className="text-4xl font-bold">Shopping Cart</h1>
+                <h1 className="text-4xl font-bold">{t('cart.title')}</h1>
                 <p className="text-muted-foreground">
                   {items.length} {items.length === 1 ? 'item' : 'items'} in your cart
                 </p>
@@ -183,7 +230,7 @@ Thank you!`;
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">Signed in as {user.email}</span>
               <Button variant="outline" size="sm" onClick={signOut}>
-                Sign Out
+                {t('nav.sign_out')}
               </Button>
             </div>
           </div>
@@ -253,7 +300,7 @@ Thank you!`;
                               className="text-destructive hover:text-destructive hover:bg-destructive/10"
                             >
                               <Trash2 className="h-4 w-4 mr-2" />
-                              Remove
+                              {t('cart.remove')}
                             </Button>
                           </div>
                         </div>
@@ -287,18 +334,23 @@ Thank you!`;
                   {/* Order Details */}
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <span>Subtotal ({items.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
+                      <span>{t('cart.subtotal')} ({items.reduce((sum, item) => sum + item.quantity, 0)})</span>
                       <span>₹{getTotalPrice().toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>GST (18%)</span>
+                      <span>{t('cart.gst')}</span>
                       <span>₹{getGST().toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>{t('cart.shipping')}</span>
+                      <span>{shipping === 0 ? <Badge className="bg-green-500/15 text-green-700">FREE</Badge> : `₹${shipping}`}</span>
                     </div>
                     <Separator />
                     <div className="flex justify-between text-lg font-bold">
-                      <span>Total Amount</span>
-                      <span className="text-primary">₹{getFinalTotal().toLocaleString()}</span>
+                      <span>{t('cart.total')}</span>
+                      <span className="text-primary">₹{grandTotal.toLocaleString()}</span>
                     </div>
+                    <p className="text-xs text-muted-foreground">{t('checkout.shipping_calc')}</p>
                   </div>
 
                   {/* Trust Badges */}
@@ -320,12 +372,12 @@ Thank you!`;
                   {/* Action Buttons */}
                   <div className="space-y-3">
                     <Button 
-                      onClick={handleCheckout}
+                      onClick={() => setShowCheckout(true)}
                       size="lg" 
                       className="w-full bg-primary hover:bg-primary-dark text-lg font-semibold py-3"
                     >
                       <CreditCard className="h-5 w-5 mr-2" />
-                      Proceed to Checkout
+                      {t('cart.checkout')}
                     </Button>
                     
                     <Button
@@ -346,13 +398,58 @@ Thank you!`;
                   {/* Additional Info */}
                   <div className="text-xs text-muted-foreground space-y-1">
                     <p>• Prices include GST</p>
-                    <p>• Free delivery for orders above ₹50,000</p>
+                    <p>• {t('cart.free_shipping_above')}</p>
                     <p>• 1-3 year warranty on all products</p>
                   </div>
                 </CardContent>
               </Card>
             </div>
           </div>
+
+          {/* Checkout drawer */}
+          {showCheckout && (
+            <div className="fixed inset-0 z-50 bg-black/50 flex items-end md:items-center justify-center p-4" onClick={() => !submitting && setShowCheckout(false)}>
+              <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                <CardHeader>
+                  <CardTitle>{t('checkout.title')}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={submitOrder} className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div><Label>{t('checkout.name')} *</Label><Input required value={delivery.customer_name} onChange={(e) => setDelivery({ ...delivery, customer_name: e.target.value })} /></div>
+                      <div><Label>{t('checkout.mobile')} *</Label><Input required pattern="[0-9]{10}" value={delivery.mobile} onChange={(e) => setDelivery({ ...delivery, mobile: e.target.value })} /></div>
+                    </div>
+                    <div><Label>{t('checkout.email')} *</Label><Input required type="email" value={delivery.email} onChange={(e) => setDelivery({ ...delivery, email: e.target.value })} /></div>
+                    <div><Label>{t('checkout.street')} *</Label><Textarea required value={delivery.street} onChange={(e) => setDelivery({ ...delivery, street: e.target.value })} /></div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div><Label>{t('checkout.city')} *</Label><Input required value={delivery.city} onChange={(e) => setDelivery({ ...delivery, city: e.target.value })} /></div>
+                      <div><Label>{t('checkout.state')}</Label><Input value={delivery.state} onChange={(e) => setDelivery({ ...delivery, state: e.target.value })} /></div>
+                      <div><Label>{t('checkout.pincode')} *</Label><Input required pattern="[0-9]{6}" value={delivery.pincode} onChange={(e) => setDelivery({ ...delivery, pincode: e.target.value })} /></div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div><Label>{t('checkout.landmark')}</Label><Input value={delivery.landmark} onChange={(e) => setDelivery({ ...delivery, landmark: e.target.value })} /></div>
+                      <div><Label>{t('checkout.preferred_date')}</Label><Input type="date" min={new Date().toISOString().split('T')[0]} value={delivery.preferred_date} onChange={(e) => setDelivery({ ...delivery, preferred_date: e.target.value })} /></div>
+                    </div>
+                    <div><Label>{t('checkout.notes')}</Label><Textarea value={delivery.notes} onChange={(e) => setDelivery({ ...delivery, notes: e.target.value })} /></div>
+                    <div className="bg-muted/40 rounded-lg p-4 text-sm space-y-1">
+                      <div className="flex justify-between"><span>{t('cart.subtotal')}</span><span>₹{getTotalPrice().toLocaleString()}</span></div>
+                      <div className="flex justify-between"><span>{t('cart.gst')}</span><span>₹{getGST().toLocaleString()}</span></div>
+                      <div className="flex justify-between"><span>{t('cart.shipping')}</span><span>₹{shipping.toLocaleString()}</span></div>
+                      <Separator className="my-1" />
+                      <div className="flex justify-between font-bold text-base"><span>{t('cart.total')}</span><span className="text-primary">₹{grandTotal.toLocaleString()}</span></div>
+                    </div>
+                    <div className="flex gap-3">
+                      <Button type="button" variant="outline" className="flex-1" onClick={() => setShowCheckout(false)} disabled={submitting}>Cancel</Button>
+                      <Button type="submit" className="flex-1" disabled={submitting}>
+                        <MessageCircle className="h-4 w-4 mr-2" />
+                        {submitting ? t('checkout.submitting') : t('checkout.place_order')}
+                      </Button>
+                    </div>
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
       </main>
       <Footer />
