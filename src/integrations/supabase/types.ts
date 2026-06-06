@@ -91,6 +91,128 @@ export type Database = {
         }
         Relationships: []
       }
+      order_items: {
+        Row: {
+          category: string | null
+          created_at: string
+          id: string
+          image_url: string | null
+          line_total: number
+          order_id: string
+          product_code: string | null
+          product_id: string | null
+          product_name: string
+          quantity: number
+          unit_price: number
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          line_total: number
+          order_id: string
+          product_code?: string | null
+          product_id?: string | null
+          product_name: string
+          quantity: number
+          unit_price: number
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          line_total?: number
+          order_id?: string
+          product_code?: string | null
+          product_id?: string | null
+          product_name?: string
+          quantity?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          city: string
+          created_at: string
+          customer_name: string
+          email: string
+          gst_amount: number
+          id: string
+          landmark: string | null
+          mobile: string
+          notes: string | null
+          order_number: string
+          payment_method: string
+          pincode: string
+          preferred_date: string | null
+          shipping_amount: number
+          state: string
+          status: string
+          street: string
+          subtotal: number
+          total_amount: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          city: string
+          created_at?: string
+          customer_name: string
+          email: string
+          gst_amount?: number
+          id?: string
+          landmark?: string | null
+          mobile: string
+          notes?: string | null
+          order_number?: string
+          payment_method?: string
+          pincode: string
+          preferred_date?: string | null
+          shipping_amount?: number
+          state?: string
+          status?: string
+          street: string
+          subtotal?: number
+          total_amount?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          customer_name?: string
+          email?: string
+          gst_amount?: number
+          id?: string
+          landmark?: string | null
+          mobile?: string
+          notes?: string | null
+          order_number?: string
+          payment_method?: string
+          pincode?: string
+          preferred_date?: string | null
+          shipping_amount?: number
+          state?: string
+          status?: string
+          street?: string
+          subtotal?: number
+          total_amount?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           accuracy: string | null
