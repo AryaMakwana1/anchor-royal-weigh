@@ -15,6 +15,7 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import Admin from "./pages/Admin";
+import AdminUsers from "./pages/AdminUsers";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -49,6 +50,14 @@ const App = () => {
                       <Admin />
                     </ProtectedRoute>
                   } 
+                />
+                <Route
+                  path="/admin/users"
+                  element={
+                    <ProtectedRoute requireAdmin>
+                      <AdminUsers />
+                    </ProtectedRoute>
+                  }
                 />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
