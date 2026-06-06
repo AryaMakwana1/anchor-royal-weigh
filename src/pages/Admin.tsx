@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Link } from 'react-router-dom';
 import { 
   Plus, 
   Edit, 
@@ -17,7 +18,8 @@ import {
   Upload, 
   Search,
   Package,
-  LogOut
+  LogOut,
+  ShieldCheck
 } from 'lucide-react';
 
 interface Product {
@@ -291,6 +293,12 @@ const Admin = () => {
               <span className="text-sm text-muted-foreground">
                 Welcome, {user?.email}
               </span>
+              <Button variant="outline" asChild>
+                <Link to="/admin/users">
+                  <ShieldCheck className="h-4 w-4 mr-2" />
+                  Admin Users
+                </Link>
+              </Button>
               <Button variant="outline" onClick={signOut}>
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
