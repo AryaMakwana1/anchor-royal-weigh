@@ -14,7 +14,134 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_users: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      cart: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string
+          quantity: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: string
+          quantity?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string
+          quantity?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cart_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contacts: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          accuracy: string | null
+          capacity: string | null
+          category: string | null
+          created_at: string
+          description: string | null
+          gst_note: string | null
+          id: string
+          image_url: string | null
+          is_best_seller: boolean | null
+          model_name: string | null
+          name: string
+          platform: string | null
+          price: number
+          product_code: string | null
+        }
+        Insert: {
+          accuracy?: string | null
+          capacity?: string | null
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          gst_note?: string | null
+          id?: string
+          image_url?: string | null
+          is_best_seller?: boolean | null
+          model_name?: string | null
+          name: string
+          platform?: string | null
+          price: number
+          product_code?: string | null
+        }
+        Update: {
+          accuracy?: string | null
+          capacity?: string | null
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          gst_note?: string | null
+          id?: string
+          image_url?: string | null
+          is_best_seller?: boolean | null
+          model_name?: string | null
+          name?: string
+          platform?: string | null
+          price?: number
+          product_code?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
