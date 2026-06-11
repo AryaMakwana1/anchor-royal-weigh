@@ -8,34 +8,29 @@ import CartSidebar from "@/components/CartSidebar";
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, ArrowRight, Star } from 'lucide-react';
+import { ArrowRight, Star, Eye, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useCart } from '@/contexts/CartContext';
-import { useAuth } from '@/contexts/AuthContext';
-import AuthModal from '@/components/AuthModal';
+
+const PLACEHOLDER = '/placeholder.svg';
 
 interface Product {
   id: string;
   name: string;
   description: string;
-  price: number;
   image_url: string;
+  images?: string[];
   category: string;
   product_code: string;
   model_name: string;
   capacity: string;
   accuracy: string;
   platform: string;
-  gst_note: string;
   is_best_seller: boolean;
 }
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const { addToCart } = useCart();
-  const { user } = useAuth();
 
   useEffect(() => {
     fetchFeaturedProducts();
@@ -59,20 +54,8 @@ const Home = () => {
     }
   };
 
-  const handleAddToCart = async (product: Product) => {
-    if (!user) {
-      setShowAuthModal(true);
-      return;
-    }
-
-    await addToCart({
-      id: product.id,
-      name: product.model_name || product.name,
-      price: product.price,
-      image: product.image_url,
-      category: product.category || 'Electronic Weighing Machine',
-      specifications: `${product.capacity} | ${product.accuracy} | ${product.platform}`,
-    });
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (!e.currentTarget.src.endsWith(PLACEHOLDER)) e.currentTarget.src = PLACEHOLDER;
   };
 
   return (
@@ -106,72 +89,65 @@ const Home = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                {featuredProducts.map((product) => (
-                  <Card key={product.id} className="group hover:shadow-lg transition-shadow relative">
-                    <CardContent className="p-6">
-                      {/* Best Seller Badge */}
-                      <Badge 
-                        variant="destructive" 
-                        className="absolute top-4 right-4 z-10 bg-gradient-to-r from-yellow-500 to-orange-500 text-white"
-                      >
-                        <Star className="h-3 w-3 mr-1" />
-                        Best Seller
-                      </Badge>
-
-                      <div className="aspect-square mb-4 overflow-hidden rounded-lg bg-muted relative">
-                        <img
-                          src={product.image_url}
-                          alt={product.model_name || product.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                        />
-                      </div>
-                      
-                      <div className="space-y-3">
-                        <Badge variant="outline" className="text-xs font-medium">
-                          {product.category || 'Electronic Scale'}
+                {featuredProducts.map((product) => {
+                  const imgSrc = (product.images && product.images[0]) || product.image_url || PLACEHOLDER;
+                  const productName = product.model_name || product.name;
+                  return (
+                    <Card key={product.id} className="group hover:shadow-lg transition-shadow relative">
+                      <CardContent className="p-6">
+                        <Badge
+                          variant="destructive"
+                          className="absolute top-4 right-4 z-10 bg-gradient-to-r from-yellow-500 to-orange-500 text-white"
+                        >
+                          <Star className="h-3 w-3 mr-1" />
+                          Best Seller
                         </Badge>
 
-                        <div className="text-sm font-bold text-primary">
-                          {product.product_code}
-                        </div>
-
-                        <h3 className="font-semibold text-lg line-clamp-2 leading-tight">
-                          {product.model_name || product.name}
-                        </h3>
-                        
-                        <div className="space-y-1 text-sm text-muted-foreground">
-                          <div className="flex justify-between">
-                            <span>Capacity:</span>
-                            <span className="font-medium">{product.capacity}</span>
+                        <Link to={`/products/${product.id}`}>
+                          <div className="aspect-square mb-4 overflow-hidden rounded-lg bg-muted relative">
+                            <img
+                              src={imgSrc}
+                              alt={`${product.product_code ? product.product_code + ' ' : ''}${productName} - Anchor Digital weighing scale`}
+                              loading="lazy"
+                              onError={handleImgError}
+                              className="w-full h-full object-contain group-hover:scale-105 transition-transform"
+                            />
                           </div>
-                          <div className="flex justify-between">
-                            <span>Accuracy:</span>
-                            <span className="font-medium">{product.accuracy}</span>
+                        </Link>
+
+                        <div className="space-y-3">
+                          <Badge variant="outline" className="text-xs font-medium">
+                            {product.category || 'Electronic Scale'}
+                          </Badge>
+                          <div className="text-sm font-bold text-primary">{product.product_code}</div>
+                          <Link to={`/products/${product.id}`}>
+                            <h3 className="font-semibold text-lg line-clamp-2 leading-tight hover:text-primary transition-colors">
+                              {productName}
+                            </h3>
+                          </Link>
+
+                          <div className="pt-3 border-t">
+                            <div className="text-sm font-semibold text-primary mb-3">Get Dealer Pricing</div>
+                            <div className="grid grid-cols-2 gap-2">
+                              <Button asChild variant="outline" size="sm">
+                                <Link to={`/products/${product.id}`}>
+                                  <Eye className="h-4 w-4 mr-1" />
+                                  View Details
+                                </Link>
+                              </Button>
+                              <Button asChild size="sm">
+                                <Link to={`/products/${product.id}`}>
+                                  <MessageCircle className="h-4 w-4 mr-1" />
+                                  Request Quote
+                                </Link>
+                              </Button>
+                            </div>
                           </div>
                         </div>
-
-                        <div className="pt-3 border-t">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-2xl font-bold text-primary">
-                              ₹{product.price.toLocaleString()}
-                            </span>
-                            <Badge variant="secondary" className="text-xs">
-                              {product.gst_note}
-                            </Badge>
-                          </div>
-
-                          <Button
-                            onClick={() => handleAddToCart(product)}
-                            className="w-full"
-                          >
-                            <ShoppingCart className="h-4 w-4 mr-2" />
-                            Add to Cart
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             )}
 
@@ -189,7 +165,6 @@ const Home = () => {
       <Footer />
       <WhatsAppFloat />
       <CartSidebar />
-      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
     </div>
   );
 };

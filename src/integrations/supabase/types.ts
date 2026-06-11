@@ -216,51 +216,69 @@ export type Database = {
       products: {
         Row: {
           accuracy: string | null
+          applications: string[]
+          brochure_url: string | null
           capacity: string | null
           category: string | null
           created_at: string
           description: string | null
+          features: string[]
           gst_note: string | null
           id: string
           image_url: string | null
+          images: string[]
           is_best_seller: boolean | null
           model_name: string | null
           name: string
           platform: string | null
           price: number
           product_code: string | null
+          short_description: string | null
+          slug: string | null
         }
         Insert: {
           accuracy?: string | null
+          applications?: string[]
+          brochure_url?: string | null
           capacity?: string | null
           category?: string | null
           created_at?: string
           description?: string | null
+          features?: string[]
           gst_note?: string | null
           id?: string
           image_url?: string | null
+          images?: string[]
           is_best_seller?: boolean | null
           model_name?: string | null
           name: string
           platform?: string | null
           price: number
           product_code?: string | null
+          short_description?: string | null
+          slug?: string | null
         }
         Update: {
           accuracy?: string | null
+          applications?: string[]
+          brochure_url?: string | null
           capacity?: string | null
           category?: string | null
           created_at?: string
           description?: string | null
+          features?: string[]
           gst_note?: string | null
           id?: string
           image_url?: string | null
+          images?: string[]
           is_best_seller?: boolean | null
           model_name?: string | null
           name?: string
           platform?: string | null
           price?: number
           product_code?: string | null
+          short_description?: string | null
+          slug?: string | null
         }
         Relationships: []
       }

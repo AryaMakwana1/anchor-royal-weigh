@@ -1,10 +1,9 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, MessageCircle, Star, Award } from 'lucide-react';
+import { MessageCircle, Star, Award, Eye } from 'lucide-react';
 import { useState } from 'react';
-import { useCart } from '@/contexts/CartContext';
-import { useToast } from '@/hooks/use-toast';
+import { Link } from 'react-router-dom';
 import QuoteModal from './QuoteModal';
 
 // Import new product images
@@ -118,36 +117,10 @@ const products = [
 const ProductCategories = () => {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<{name: string} | null>(null);
-  const { addToCart } = useCart();
-  const { toast } = useToast();
 
   const handleQuoteClick = (productName: string) => {
     setSelectedProduct({ name: productName });
     setIsQuoteModalOpen(true);
-  };
-
-  const parsePrice = (priceString: string): number => {
-    // Remove ₹ symbol and commas, then convert to number
-    return parseInt(priceString.replace(/[₹,]/g, ''));
-  };
-
-  const handleAddToCart = (product: typeof products[0]) => {
-    const details = parseProductDetails(product.filename);
-    const productName = `${details.model} - ${details.name}`;
-    
-    addToCart({
-      id: product.id.toString(),
-      name: productName,
-      price: parsePrice(product.price),
-      image: product.image,
-      category: product.category,
-      specifications: `Capacity: ${details.capacity}, Accuracy: ${details.accuracy}`,
-    });
-
-    toast({
-      title: "Added to Cart!",
-      description: `${productName} has been added to your cart.`,
-    });
   };
 
   return (
@@ -223,32 +196,29 @@ const ProductCategories = () => {
                         </div>
                       </div>
 
-                      {/* Price */}
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="text-2xl font-bold text-accent">{product.price}</span>
-                        <Badge variant="secondary" className="text-xs">
-                          GST Extra
-                        </Badge>
+                      <div className="mb-4">
+                        <span className="text-base font-semibold text-accent">Request a Quote</span>
                       </div>
 
-                      {/* Action Buttons */}
                       <div className="flex gap-2">
-                        <Button 
-                          size="sm" 
-                          className="flex-1 bg-accent hover:bg-accent-dark text-accent-foreground hover:scale-105 transition-all duration-300"
-                          onClick={() => handleAddToCart(product)}
+                        <Button
+                          asChild
+                          size="sm"
+                          variant="outline"
+                          className="flex-1 border-accent text-accent hover:bg-accent hover:text-accent-foreground"
                         >
-                          <ShoppingCart className="h-4 w-4 mr-2" />
-                          Add to Cart
+                          <Link to="/products">
+                            <Eye className="h-4 w-4 mr-1" />
+                            View Details
+                          </Link>
                         </Button>
-                        <Button 
-                          size="sm" 
-                          variant="outline" 
-                          className="border-accent text-accent hover:bg-accent hover:text-accent-foreground hover:scale-105 transition-all duration-300"
+                        <Button
+                          size="sm"
+                          className="flex-1 bg-accent hover:bg-accent-dark text-accent-foreground"
                           onClick={() => handleQuoteClick(`${details.model} - ${details.name}`)}
                         >
                           <MessageCircle className="h-4 w-4 mr-1" />
-                          Quote
+                          Request Quote
                         </Button>
                       </div>
                     </div>
