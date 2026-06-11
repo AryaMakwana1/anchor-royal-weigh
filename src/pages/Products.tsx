@@ -149,8 +149,6 @@ const Products = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="name">Name (A-Z)</SelectItem>
-                <SelectItem value="price-low">Price (Low to High)</SelectItem>
-                <SelectItem value="price-high">Price (High to Low)</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -171,89 +169,57 @@ const Products = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProducts.map((product) => (
-                <Card key={product.id} className="group hover:shadow-lg transition-shadow relative">
-                  <CardContent className="p-6">
-                    {/* Best Seller Badge */}
-                    {product.is_best_seller && (
-                      <Badge 
-                        variant="destructive" 
-                        className="absolute top-4 right-4 z-10 bg-gradient-to-r from-yellow-500 to-orange-500 text-white"
-                      >
-                        <Star className="h-3 w-3 mr-1" />
-                        Best Seller
-                      </Badge>
-                    )}
+              {filteredProducts.map((product) => {
+                const imgSrc = (product.images && product.images[0]) || product.image_url || PLACEHOLDER;
+                const productName = product.model_name || product.name;
+                return (
+                <Card key={product.id} className="group hover:shadow-lg transition-shadow relative flex flex-col">
+                  <CardContent className="p-6 flex flex-col flex-1">
+                    <Link to={`/products/${product.id}`} className="block">
+                      <div className="aspect-square mb-4 overflow-hidden rounded-lg bg-muted relative">
+                        <img
+                          src={imgSrc}
+                          alt={`${product.product_code ? product.product_code + ' ' : ''}${productName} - Anchor Digital weighing scale`}
+                          loading="lazy"
+                          onError={handleImgError}
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform"
+                        />
+                      </div>
+                    </Link>
 
-                    <div className="aspect-square mb-4 overflow-hidden rounded-lg bg-muted relative">
-                      <img
-                        src={product.image_url}
-                        alt={product.model_name || product.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                      />
-                    </div>
-                    
-                    <div className="space-y-3">
-                      {/* Category Tag */}
-                      <Badge variant="outline" className="text-xs font-medium">
+                    <div className="space-y-3 flex-1 flex flex-col">
+                      <Badge variant="outline" className="text-xs font-medium w-fit">
                         {product.category || 'Electronic Scale'}
                       </Badge>
 
-                      {/* Product Code */}
-                      <div className="text-sm font-bold text-primary">
-                        {product.product_code}
-                      </div>
+                      {product.product_code && (
+                        <div className="text-sm font-bold text-primary">{product.product_code}</div>
+                      )}
 
-                      {/* Model Name */}
-                      <h3 className="font-semibold text-lg line-clamp-2 leading-tight">
-                        {product.model_name || product.name}
-                      </h3>
-                      
-                      {/* Product Details */}
-                      <div className="space-y-1 text-sm text-muted-foreground">
-                        <div className="flex justify-between">
-                          <span>Capacity:</span>
-                          <span className="font-medium">{product.capacity}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Accuracy:</span>
-                          <span className="font-medium">{product.accuracy}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Platform:</span>
-                          <span className="font-medium text-xs">{product.platform}</span>
-                        </div>
-                      </div>
+                      <Link to={`/products/${product.id}`}>
+                        <h3 className="font-semibold text-lg line-clamp-2 leading-tight hover:text-primary transition-colors">
+                          {productName}
+                        </h3>
+                      </Link>
 
-                      {/* Price Section */}
-                      <div className="pt-3 border-t">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-2xl font-bold text-primary">
-                            ₹{product.price.toLocaleString()}
-                          </span>
-                          <Badge variant="secondary" className="text-xs">
-                            {product.gst_note}
-                          </Badge>
-                        </div>
+                      {(product.short_description || product.description) && (
+                        <p className="text-sm text-muted-foreground line-clamp-2">
+                          {product.short_description || product.description}
+                        </p>
+                      )}
 
-                        {/* Action Buttons */}
+                      <div className="pt-3 mt-auto border-t">
+                        <div className="text-sm font-semibold text-primary mb-3">Request a Quote</div>
                         <div className="grid grid-cols-2 gap-2">
-                          <Button
-                            onClick={() => handleAddToCart(product)}
-                            size="sm"
-                            className="w-full"
-                          >
-                            <ShoppingCart className="h-4 w-4 mr-1" />
-                            Add to Cart
+                          <Button asChild size="sm" variant="outline">
+                            <Link to={`/products/${product.id}`}>
+                              <Eye className="h-4 w-4 mr-1" />
+                              View Details
+                            </Link>
                           </Button>
-                          <Button
-                            onClick={() => handleQuoteRequest(product)}
-                            variant="outline"
-                            size="sm"
-                            className="w-full"
-                          >
+                          <Button onClick={() => handleQuoteRequest(product)} size="sm">
                             <Quote className="h-4 w-4 mr-1" />
-                            Quote
+                            Request Quote
                           </Button>
                         </div>
                       </div>
