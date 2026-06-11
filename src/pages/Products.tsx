@@ -12,23 +12,23 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Search, ShoppingCart, User, Star, Quote } from 'lucide-react';
+import { Search, User, Eye, Quote } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import AuthModal from '@/components/AuthModal';
 import QuoteModal from '@/components/QuoteModal';
+
+const PLACEHOLDER = '/placeholder.svg';
 
 interface Product {
   id: string;
   name: string;
   description: string;
-  price: number;
   image_url: string;
+  images?: string[];
+  short_description?: string;
   category: string;
   product_code: string;
   model_name: string;
-  capacity: string;
-  accuracy: string;
-  platform: string;
-  gst_note: string;
   is_best_seller: boolean;
 }
 
@@ -42,7 +42,6 @@ const Products = () => {
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   
-  const { addToCart } = useCart();
   const { user, signOut } = useAuth();
   const { toast } = useToast();
 
@@ -81,41 +80,18 @@ const Products = () => {
       product.description?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // Sort products
-    filtered.sort((a, b) => {
-      switch (sortBy) {
-        case 'price-low':
-          return a.price - b.price;
-        case 'price-high':
-          return b.price - a.price;
-        case 'name':
-        default:
-          return a.name.localeCompare(b.name);
-      }
-    });
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
 
     setFilteredProducts(filtered);
-  };
-
-  const handleAddToCart = async (product: Product) => {
-    if (!user) {
-      setShowAuthModal(true);
-      return;
-    }
-
-    await addToCart({
-      id: product.id,
-      name: product.model_name || product.name,
-      price: product.price,
-      image: product.image_url,
-      category: product.category || 'Electronic Weighing Machine',
-      specifications: `${product.capacity} | ${product.accuracy} | ${product.platform}`,
-    });
   };
 
   const handleQuoteRequest = (product: Product) => {
     setSelectedProduct(product);
     setShowQuoteModal(true);
+  };
+
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (!e.currentTarget.src.endsWith(PLACEHOLDER)) e.currentTarget.src = PLACEHOLDER;
   };
 
   return (
