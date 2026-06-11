@@ -1,10 +1,9 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, MessageCircle, Star, Award } from 'lucide-react';
+import { MessageCircle, Star, Award, Eye } from 'lucide-react';
 import { useState } from 'react';
-import { useCart } from '@/contexts/CartContext';
-import { useToast } from '@/hooks/use-toast';
+import { Link } from 'react-router-dom';
 import QuoteModal from './QuoteModal';
 
 // Import new product images
