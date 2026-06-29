@@ -25,57 +25,6 @@ const Header = () => {
 
   return (
     <>
-      {/* Top Contact Bar */}
-      <div className="bg-secondary text-secondary-foreground py-2 px-4 text-sm">
-        <div className="container mx-auto flex flex-wrap justify-between items-center">
-          <div className="flex flex-wrap items-center gap-4">
-            <div className="flex items-center gap-1">
-              <Phone className="h-4 w-4" />
-              <span>+91 9377446942 | +91 9712644009</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Mail className="h-4 w-4" />
-              <span>anchordigitalscale@gmail.com</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
-              <MapPin className="h-4 w-4" />
-              <span>Savarkundla, Gujarat</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <a 
-                href="https://www.linkedin.com/company/anchor-digital-scale/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors"
-                aria-label="Follow us on LinkedIn"
-              >
-                <Linkedin className="h-4 w-4" />
-              </a>
-              <a 
-                href="https://www.facebook.com/groups/1118617721942618/members/admins" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors"
-                aria-label="Follow us on Facebook"
-              >
-                <Facebook className="h-4 w-4" />
-              </a>
-              <a 
-                href="https://www.instagram.com/_anchordigital/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors"
-                aria-label="Follow us on Instagram"
-              >
-                <Instagram className="h-4 w-4" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Header - Sticky */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm shadow-elegant border-b transition-all duration-300">
         <div className="container mx-auto px-4 py-4">
@@ -89,7 +38,7 @@ const Header = () => {
               />
               <div className="flex flex-col">
                 <h1 className="text-2xl font-bold text-primary">Anchor Digital</h1>
-                <p className="text-sm text-muted-foreground">Precision Weighing Solutions</p>
+                <p className="text-sm text-muted-foreground">Precision You Can Trust</p>
               </div>
             </Link>
 

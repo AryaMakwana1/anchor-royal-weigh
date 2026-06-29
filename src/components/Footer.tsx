@@ -204,7 +204,7 @@ const Footer = () => {
             </div>
             <div className="text-sm">
               <span className="text-accent font-semibold">
-                "Anchor Digital – The Future of Precision Weighing"
+                "Anchor Digital – Precision You Can Trust"
               </span>
             </div>
           </div>

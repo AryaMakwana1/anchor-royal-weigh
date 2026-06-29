@@ -1,10 +1,16 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { X, Send } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { ARYA_PHONE_NUMBER } from "@/consts";
+import { Send, X } from "lucide-react";
+import { useState } from "react";
 
 interface QuoteModalProps {
   isOpen: boolean;
@@ -17,28 +23,30 @@ interface QuoteModalProps {
 }
 
 const QuoteModal = ({ isOpen, onClose, product }: QuoteModalProps) => {
-  const productName = product ? (product.model_name || product.name) : '';
+  const productName = product ? product.model_name || product.name : "";
   const [formData, setFormData] = useState({
-    name: '',
-    company: '',
-    phone: '',
-    email: '',
-    location: '',
+    name: "",
+    company: "",
+    phone: "",
+    email: "",
+    location: "",
     productInterest: productName,
-    orderVolume: '',
-    message: ''
+    orderVolume: "",
+    message: "",
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Create WhatsApp message
     const message = `Quote Request from ${formData.name}
 
@@ -51,19 +59,21 @@ Order Volume: ${formData.orderVolume}
 
 Message: ${formData.message}`;
 
-    const whatsappUrl = `https://wa.me/919377446942?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-    
+    const whatsappUrl = `https://wa.me/91${ARYA_PHONE_NUMBER}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
+
     // Reset form and close modal
     setFormData({
-      name: '',
-      company: '',
-      phone: '',
-      email: '',
-      location: '',
+      name: "",
+      company: "",
+      phone: "",
+      email: "",
+      location: "",
       productInterest: productName,
-      orderVolume: '',
-      message: ''
+      orderVolume: "",
+      message: "",
     });
     onClose();
   };
@@ -84,7 +94,7 @@ Message: ${formData.message}`;
             </Button>
           </DialogTitle>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -107,7 +117,7 @@ Message: ${formData.message}`;
               />
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="phone">Phone *</Label>
@@ -131,7 +141,7 @@ Message: ${formData.message}`;
               />
             </div>
           </div>
-          
+
           <div>
             <Label htmlFor="location">Location</Label>
             <Input
@@ -141,7 +151,7 @@ Message: ${formData.message}`;
               onChange={handleInputChange}
             />
           </div>
-          
+
           <div>
             <Label htmlFor="productInterest">Product Interest</Label>
             <Input
@@ -151,7 +161,7 @@ Message: ${formData.message}`;
               onChange={handleInputChange}
             />
           </div>
-          
+
           <div>
             <Label htmlFor="orderVolume">Expected Order Volume</Label>
             <Input
@@ -162,7 +172,7 @@ Message: ${formData.message}`;
               placeholder="e.g., 10 units, 100 pieces"
             />
           </div>
-          
+
           <div>
             <Label htmlFor="message">Additional Message</Label>
             <Textarea
@@ -173,7 +183,7 @@ Message: ${formData.message}`;
               rows={3}
             />
           </div>
-          
+
           <Button type="submit" className="w-full">
             <Send className="h-4 w-4 mr-2" />
             Send Quote Request
